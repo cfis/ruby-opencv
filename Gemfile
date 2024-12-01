@@ -1,9 +1,5 @@
 source 'https://rubygems.org'
-
-group :development do
-  gem "hoe"
-  gem "hoe-gemspec"
-  gem "rake-compiler"
-  gem "yard"
-end
-
+gemspec
+gem 'rake', group: 'development', require: false
+gem 'rubocop', group: 'development', require: false
+gem 'yard', group: 'development', require: false
