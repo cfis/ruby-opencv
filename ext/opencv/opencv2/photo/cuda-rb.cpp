@@ -1,0 +1,33 @@
+#include <sstream>
+#include <opencv2/photo/cuda.hpp>
+#include "cuda-rb.hpp"
+
+using namespace Rice;
+
+
+
+void Init_Cuda()
+{
+  Module rb_mCv = define_module("Cv");
+  
+  Module rb_mCvCuda = define_module_under(rb_mCv, "Cuda");
+  
+  rb_mCvCuda.define_module_function<void(*)(cv::InputArray, cv::OutputArray, float, int, int, int, cv::cuda::Stream&)>("non_local_means", &cv::cuda::nonLocalMeans,
+    Arg("src"), Arg("dst"), Arg("h"), Arg("search_window") = 21, Arg("block_size") = 7, Arg("border_mode"), Arg("stream"));
+  
+  rb_mCvCuda.define_module_function<void(*)(const cv::cuda::GpuMat&, cv::cuda::GpuMat&, float, int, int, int, cv::cuda::Stream&)>("non_local_means", &cv::cuda::nonLocalMeans,
+    Arg("src"), Arg("dst"), Arg("h"), Arg("search_window") = 21, Arg("block_size") = 7, Arg("border_mode"), Arg("stream"));
+  
+  rb_mCvCuda.define_module_function<void(*)(cv::InputArray, cv::OutputArray, float, int, int, cv::cuda::Stream&)>("fast_nl_means_denoising", &cv::cuda::fastNlMeansDenoising,
+    Arg("src"), Arg("dst"), Arg("h"), Arg("search_window") = 21, Arg("block_size") = 7, Arg("stream"));
+  
+  rb_mCvCuda.define_module_function<void(*)(const cv::cuda::GpuMat&, cv::cuda::GpuMat&, float, int, int, cv::cuda::Stream&)>("fast_nl_means_denoising", &cv::cuda::fastNlMeansDenoising,
+    Arg("src"), Arg("dst"), Arg("h"), Arg("search_window") = 21, Arg("block_size") = 7, Arg("stream"));
+  
+  rb_mCvCuda.define_module_function<void(*)(cv::InputArray, cv::OutputArray, float, float, int, int, cv::cuda::Stream&)>("fast_nl_means_denoising_colored", &cv::cuda::fastNlMeansDenoisingColored,
+    Arg("src"), Arg("dst"), Arg("h_luminance"), Arg("photo_render"), Arg("search_window") = 21, Arg("block_size") = 7, Arg("stream"));
+  
+  rb_mCvCuda.define_module_function<void(*)(const cv::cuda::GpuMat&, cv::cuda::GpuMat&, float, float, int, int, cv::cuda::Stream&)>("fast_nl_means_denoising_colored", &cv::cuda::fastNlMeansDenoisingColored,
+    Arg("src"), Arg("dst"), Arg("h_luminance"), Arg("photo_render"), Arg("search_window") = 21, Arg("block_size") = 7, Arg("stream"));
+
+}
