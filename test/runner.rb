@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# -*- mode: ruby; coding: utf-8 -*-
 require 'test/unit'
 
 src_testdir = File.dirname(File.expand_path(__FILE__))
