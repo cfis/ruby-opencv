@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby; coding: utf-8 -*-
-require 'test/unit'
-require 'opencv'
 require File.expand_path(File.dirname(__FILE__)) + '/helper'
-
-include OpenCV
 
 # Tests for OpenCV::IplImage
 class TestIplImage < OpenCVTestCase
@@ -18,7 +14,6 @@ class TestIplImage < OpenCVTestCase
     assert_equal(20, img.height)
     assert_equal(:cv8u, img.depth)
     assert_equal(3, img.channel)
-
     img = IplImage.new(30, 40, :cv32f, 1)
     assert_equal(30, img.width)
     assert_equal(40, img.height)
@@ -33,21 +28,18 @@ class TestIplImage < OpenCVTestCase
     assert_equal(500, img1.height)
     assert_equal(:cv8u, img1.depth)
     assert_equal(3, img1.channel)
-
     img2 = IplImage.load(FILENAME_CAT, CV_LOAD_IMAGE_GRAYSCALE)
     assert_equal(IplImage, img2.class)
     assert_equal(375, img2.width)
     assert_equal(500, img2.height)
     assert_equal(:cv8u, img2.depth)
     assert_equal(1, img2.channel)
-
     img3 = IplImage.load(FILENAME_CAT, CV_LOAD_IMAGE_ANYDEPTH | CV_LOAD_IMAGE_ANYCOLOR)
     assert_equal(IplImage, img3.class)
     assert_equal(375, img3.width)
     assert_equal(500, img3.height)
     assert_equal(:cv8u, img3.depth)
     assert_equal(3, img3.channel)
-
     assert_raise(ArgumentError) {
       IplImage.load
     }
@@ -60,7 +52,6 @@ class TestIplImage < OpenCVTestCase
     assert_raise(StandardError) {
       IplImage.load('file/does/not/exist')
     }
-
     # Uncomment the following lines to show the results
     # snap img1, img2, img3
   end
@@ -71,42 +62,36 @@ class TestIplImage < OpenCVTestCase
       data = f.read
     }
     data_ary = data.unpack("c*")
-    data_mat = CvMat.new(1, data_ary.size).set_data(data_ary)
+    data_mat = Cv::Mat.new(1, data_ary.size).set_data(data_ary)
     expected = IplImage.load(FILENAME_CAT)
-
     img1 = IplImage.decode(data)
     img2 = IplImage.decode(data_ary)
     img3 = IplImage.decode(data_mat)
     img4 = IplImage.decode(data, CV_LOAD_IMAGE_COLOR)
     img5 = IplImage.decode(data_ary, CV_LOAD_IMAGE_COLOR)
     img6 = IplImage.decode(data_mat, CV_LOAD_IMAGE_COLOR)
-
     [img1, img2, img3, img4, img5, img6].each { |img|
       assert_equal(IplImage, img.class)
       assert_equal(expected.rows, img.rows)
       assert_equal(expected.cols, img.cols)
       assert_equal(expected.channel, img.channel)
     }
-
     expected_c1 = IplImage.load(FILENAME_CAT, CV_LOAD_IMAGE_GRAYSCALE)
     img1c1 = IplImage.decode(data, CV_LOAD_IMAGE_GRAYSCALE)
     img2c1 = IplImage.decode(data_ary, CV_LOAD_IMAGE_GRAYSCALE)
     img3c1 = IplImage.decode(data_mat, CV_LOAD_IMAGE_GRAYSCALE)
-
     [img1c1, img2c1, img3c1].each { |img|
       assert_equal(IplImage, img.class)
       assert_equal(expected_c1.rows, img.rows)
       assert_equal(expected_c1.cols, img.cols)
       assert_equal(expected_c1.channel, img.channel)
     }
-
     assert_raise(TypeError) {
       IplImage.decode(DUMMY_OBJ)
     }
     assert_raise(TypeError) {
       IplImage.decode(data, DUMMY_OBJ)
     }
-
     # Uncomment the following line to show the result images
     # snap img1, img2, img3
   end
@@ -118,22 +103,19 @@ class TestIplImage < OpenCVTestCase
     assert_equal(0, rect.y)
     assert_equal(img.width, rect.width)
     assert_equal(img.height, rect.height)
-
-    img.set_roi(CvRect.new(2, 3, 10, 20))
+    img.set_roi(Cv::Rect.new(2, 3, 10, 20))
     rect = img.roi
     assert_equal(2, rect.x)
     assert_equal(3, rect.y)
     assert_equal(10, rect.width)
     assert_equal(20, rect.height)
-
     img.reset_roi
     rect = img.roi
     assert_equal(0, rect.x)
     assert_equal(0, rect.y)
     assert_equal(img.width, rect.width)
     assert_equal(img.height, rect.height)
-
-    img.set_roi(CvRect.new(1, 2, 5, 6)) {|image|
+    img.set_roi(Cv::Rect.new(1, 2, 5, 6)) {|image|
       rect = image.roi
       assert_equal(1, rect.x)
       assert_equal(2, rect.y)
@@ -145,9 +127,8 @@ class TestIplImage < OpenCVTestCase
     assert_equal(0, rect.y)
     assert_equal(img.width, rect.width)
     assert_equal(img.height, rect.height)
-
     # Alias
-    img.roi = CvRect.new(4, 5, 11, 12)
+    img.roi = Cv::Rect.new(4, 5, 11, 12)
     rect = img.roi
     assert_equal(4, rect.x)
     assert_equal(5, rect.y)
@@ -158,18 +139,14 @@ class TestIplImage < OpenCVTestCase
   def test_coi
     img = IplImage.new(20, 30)
     assert_equal(0, img.coi)
-
     img.set_coi(1)
     assert_equal(1, img.coi)
-
     img.reset_coi
     assert_equal(0, img.coi)
-
     img.set_coi(2) {|image|
       assert_equal(2, image.coi)
     }
     assert_equal(0, img.coi)
-
     # Alias
     img.coi = 1
     assert_equal(1, img.coi)
@@ -177,19 +154,15 @@ class TestIplImage < OpenCVTestCase
 
   def test_smoothness
     asset_path = File.join(File.dirname(__FILE__), 'samples')
-
     for image in Array.new(7) { |e| e = File.join(asset_path, "smooth%d.jpg") % e } do
       should_classify_images_as image, :smooth
     end
-
     for image in Array.new(2) { |e| e = File.join(asset_path, "messy%d.jpg") % e } do
       should_classify_images_as image, :messy
     end
-
     for image in Array.new(10) { |e| e = File.join(asset_path, "blank%d.jpg") % e } do
       should_classify_images_as image, :blank
     end
-
     for image in Array.new(2) { |e| e = File.join(asset_path, "partially_blank%d.jpg") % e } do
       should_classify_images_as image, :blank
     end
@@ -197,21 +170,20 @@ class TestIplImage < OpenCVTestCase
 
   def test_pyr_segmentation
     img0 = IplImage.load(FILENAME_CAT, CV_LOAD_IMAGE_ANYCOLOR | CV_LOAD_IMAGE_ANYDEPTH)
-    img0.set_roi(CvRect.new(0, 0, 256, 512))
+    img0.set_roi(Cv::Rect.new(0, 0, 256, 512))
     img1, seq1 = img0.pyr_segmentation(2, 255, 50)
     assert_equal('963b26f51b14f175fbbf128e9b9e979f', hash_img(img1))
     assert_equal(11, seq1.total)
-
-    assert_raise(CvStsAssert) {
+    assert_raise(Cv::StsAssert) {
       img0.pyr_segmentation(-1, 255, 50)
     }
-    assert_raise(CvStsAssert) {
+    assert_raise(Cv::StsAssert) {
       img0.pyr_segmentation(1000, 255, 50)
     }
-    assert_raise(CvStsAssert) {
+    assert_raise(Cv::StsAssert) {
       img0.pyr_segmentation(4, -1, 50)
     }
-    assert_raise(CvStsAssert) {
+    assert_raise(Cv::StsAssert) {
       img0.pyr_segmentation(4, 255, -1)
     }
     assert_raise(TypeError) {
@@ -223,10 +195,9 @@ class TestIplImage < OpenCVTestCase
     assert_raise(TypeError) {
       img0.pyr_segmentation(4, 255, DUMMY_OBJ)
     }
-    assert_raise(CvBadDepth) {
+    assert_raise(Cv::BadDepth) {
       IplImage.new(10, 10, :cv32f, 2).pyr_segmentation(4, 255, 50)
     }
   end
 end
-
 

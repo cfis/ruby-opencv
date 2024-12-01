@@ -1,11 +1,19 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby; coding: utf-8 -*-
-require 'test/unit'
-require 'digest/md5'
-require 'opencv'
-include OpenCV
+# To make testing/debugging easier test within this source tree versus an installed gem
+require 'bundler/setup'
 
-class OpenCVTestCase < Test::Unit::TestCase
+# Add ext directory to load path to make it easier to test locally built extensions
+ext_path = File.expand_path(File.join(__dir__, '..', 'ext', 'opencv', 'out', 'build', 'x64-Debug'))
+#ext_path = File.expand_path(File.join(__dir__, '..', 'ext', 'opencv', 'cmake-build-debug-mingw'))
+#ext_path = File.expand_path(File.join(__dir__, '..', 'ext', 'opencv', 'cmake-build-debug-visual-studio'))
+$LOAD_PATH.unshift(ext_path)
+
+# Now load code
+require 'ruby-opencv'
+require 'minitest/autorun'
+
+class OpenCVTestCase < Minitest::Test
   SAMPLE_DIR = File.expand_path(File.dirname(__FILE__)) + '/samples/'
   FILENAME_CAT = SAMPLE_DIR + 'cat.jpg'
   FILENAME_LENA256x256 = SAMPLE_DIR + 'lena-256x256.jpg'
@@ -17,9 +25,7 @@ class OpenCVTestCase < Test::Unit::TestCase
   FILENAME_LINES = SAMPLE_DIR + 'lines.jpg'
   HAARCASCADE_FRONTALFACE_ALT = SAMPLE_DIR + 'haarcascade_frontalface_alt.xml.gz'
   AVI_SAMPLE = SAMPLE_DIR + 'movie_sample.avi'
-
-  DUMMY_OBJ = Digest::MD5.new # dummy object for argument type check test
-
+  #DUMMY_OBJ = Digest::MD5.new # dummy object for argument type check test
   def snap(*images)
     n = -1
     images.map! { |val|
@@ -32,8 +38,7 @@ class OpenCVTestCase < Test::Unit::TestCase
         {:title => "snap-#{n}", :image => val }
       end
     }
-
-    pos = CvPoint.new(0, 0)
+    pos = Cv::Point.new(0, 0)
     images.each { |img|
       w = GUI::Window.new(img[:title])
       w.show(img[:image])
@@ -54,16 +59,8 @@ class OpenCVTestCase < Test::Unit::TestCase
     Digest::MD5.hexdigest(img.data)
   end
 
-  unless Test::Unit::TestCase.instance_methods.map {|m| m.to_sym }.include? :assert_false
-    def assert_false(actual, message = nil)
-      assert_equal(false, actual, message)
-    end
-  end
-
-  alias original_assert_in_delta assert_in_delta
-
   def assert_cvscalar_equal(expected, actual, message = nil)
-    assert_equal(CvScalar, actual.class, message)
+    assert_equal(Cv::Scalar, actual.class, message)
     assert_array_equal(expected.to_ary, actual.to_ary, message)
   end
 
@@ -73,11 +70,12 @@ class OpenCVTestCase < Test::Unit::TestCase
       assert_equal(e, a, message)
     }
   end
+
   
   def assert_in_delta(expected, actual, delta)
-    if expected.is_a? CvScalar or actual.is_a? CvScalar
-      expected = expected.to_ary if expected.is_a? CvScalar
-      actual = actual.to_ary if actual.is_a? CvScalar
+    if expected.is_a? Cv::Scalar or actual.is_a? Cv::Scalar
+      expected = expected.to_ary if expected.is_a? Cv::Scalar
+      actual = actual.to_ary if actual.is_a? Cv::Scalar
       assert_in_delta(expected, actual ,delta)
     elsif expected.is_a? Array and actual.is_a? Array
       assert_equal(expected.size, actual.size)
@@ -90,8 +88,8 @@ class OpenCVTestCase < Test::Unit::TestCase
   end
 
   def create_cvmat(height, width, depth = :cv8u, channel = 4, &block)
-    m = CvMat.new(height, width, depth, channel)
-    block = lambda { |j, i, c| CvScalar.new(*([c + 1] * channel)) } unless block_given?
+    m = Cv::Mat.new(height, width, depth, channel)
+    block = lambda { |j, i, c| Cv::Scalar.new(*([c + 1] * channel)) } unless block_given?
     count = 0
     height.times { |j|
       width.times { |i|
@@ -104,7 +102,7 @@ class OpenCVTestCase < Test::Unit::TestCase
 
   def create_iplimage(width, height, depth = :cv8u, channel = 4, &block)
     m = IplImage.new(width, height, depth, channel)
-    block = lambda { |j, i, c| CvScalar.new(*([c + 1] * channel)) } unless block_given?
+    block = lambda { |j, i, c| Cv::Scalar.new(*([c + 1] * channel)) } unless block_given?
     count = 0
     height.times { |j|
       width.times { |i|
@@ -122,7 +120,7 @@ class OpenCVTestCase < Test::Unit::TestCase
       actual.width.times { |i|
         expected = block.call(j, i, count)
         if delta == 0
-          expected = expected.to_ary if expected.is_a? CvScalar
+          expected = expected.to_ary if expected.is_a? Cv::Scalar
           assert_array_equal(expected, actual[j, i].to_ary)
         else
           assert_in_delta(expected, actual[j, i], delta)
@@ -164,4 +162,3 @@ class OpenCVTestCase < Test::Unit::TestCase
     hists
   end
 end
-

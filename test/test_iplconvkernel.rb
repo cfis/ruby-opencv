@@ -1,10 +1,6 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby; coding: utf-8 -*-
-require 'test/unit'
-require 'opencv'
 require File.expand_path(File.dirname(__FILE__)) + '/helper'
-
-include OpenCV
 
 # Tests for OpenCV::IplConvKernel
 class TestIplConvKernel < OpenCVTestCase
@@ -13,19 +9,16 @@ class TestIplConvKernel < OpenCVTestCase
       kernel = IplConvKernel.new(5, 5, 2, 2, shape)
       assert_not_nil(kernel)
     }
-
     values = [1] * 25
     [:custom, CV_SHAPE_CUSTOM].each { |shape|
       kernel = IplConvKernel.new(5, 5, 2, 2, shape, values)
       assert_not_nil(kernel)
     }
-
     [:custom, CV_SHAPE_CUSTOM].each { |shape|
       assert_raise(ArgumentError) {
         IplConvKernel.new(5, 5, 2, 2, shape)
       }
     }
-
     assert_raise(TypeError) {
       IplConvKernel.new(5, 5, 2, 2, :foobar)
     }
@@ -36,7 +29,6 @@ class TestIplConvKernel < OpenCVTestCase
     size = kernel.size
     assert_equal(5, size.width)
     assert_equal(4, size.height)
-
     assert_equal(5, kernel.cols)
     assert_equal(4, kernel.rows)
   end
@@ -46,9 +38,7 @@ class TestIplConvKernel < OpenCVTestCase
     a = kernel.anchor
     assert_equal(3, a.x)
     assert_equal(2, a.y)
-
     assert_equal(3, kernel.anchor_x)
     assert_equal(2, kernel.anchor_y)
   end
 end
-

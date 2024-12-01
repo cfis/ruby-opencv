@@ -1,0 +1,44 @@
+#include <opencv2/objdetect/aruco_board.hpp>
+#include "aruco_board-rb.hpp"
+
+using namespace Rice;
+
+extern "C"
+void Init_ArucoBoard()
+{
+  Module rb_mCv = define_module("Cv");
+  
+  Module rb_mCvAruco = define_module_under(rb_mCv, "Aruco");
+  
+  Class rb_cCvArucoBoard = define_class_under<cv::aruco::Board>(rb_mCvAruco, "Board").
+    define_constructor(Constructor<cv::aruco::Board, const cv::_InputArray &, const cv::aruco::Dictionary&, const cv::_InputArray &>()).
+    define_method<const cv::aruco::Dictionary&(cv::aruco::Board::*)() const>("get_dictionary", &cv::aruco::Board::getDictionary).
+    define_method<const std::vector<std::vector<cv::Point3_<float>>>&(cv::aruco::Board::*)() const>("get_obj_points", &cv::aruco::Board::getObjPoints).
+    define_method<const std::vector<int>&(cv::aruco::Board::*)() const>("get_ids", &cv::aruco::Board::getIds).
+    define_method<const cv::Point3_<float>&(cv::aruco::Board::*)() const>("get_right_bottom_corner", &cv::aruco::Board::getRightBottomCorner).
+    define_method<void(cv::aruco::Board::*)(const cv::_InputArray &, const cv::_InputArray &, const cv::_OutputArray &, const cv::_OutputArray &) const>("match_image_points", &cv::aruco::Board::matchImagePoints).
+    define_method<void(cv::aruco::Board::*)(cv::Size_<int>, const cv::_OutputArray &, int, int) const>("generate_image", &cv::aruco::Board::generateImage).
+    define_constructor(Constructor<cv::aruco::Board>()).
+    define_constructor(Constructor<cv::aruco::Board, const cv::Ptr<cv::aruco::Board::Impl>&>());
+  
+  
+  Class rb_cCvArucoGridBoard = define_class_under<cv::aruco::GridBoard, cv::aruco::Board>(rb_mCvAruco, "GridBoard").
+    define_constructor(Constructor<cv::aruco::GridBoard, const cv::Size_<int>&, float, float, const cv::aruco::Dictionary&, const cv::_InputArray &>()).
+    define_method<cv::Size_<int>(cv::aruco::GridBoard::*)() const>("get_grid_size", &cv::aruco::GridBoard::getGridSize).
+    define_method<float(cv::aruco::GridBoard::*)() const>("get_marker_length", &cv::aruco::GridBoard::getMarkerLength).
+    define_method<float(cv::aruco::GridBoard::*)() const>("get_marker_separation", &cv::aruco::GridBoard::getMarkerSeparation).
+    define_constructor(Constructor<cv::aruco::GridBoard>());
+  
+  Class rb_cCvArucoCharucoBoard = define_class_under<cv::aruco::CharucoBoard, cv::aruco::Board>(rb_mCvAruco, "CharucoBoard").
+    define_constructor(Constructor<cv::aruco::CharucoBoard, const cv::Size_<int>&, float, float, const cv::aruco::Dictionary&, const cv::_InputArray &>()).
+    define_method<void(cv::aruco::CharucoBoard::*)(bool)>("set_legacy_pattern", &cv::aruco::CharucoBoard::setLegacyPattern).
+    define_method<bool(cv::aruco::CharucoBoard::*)() const>("get_legacy_pattern", &cv::aruco::CharucoBoard::getLegacyPattern).
+    define_method<cv::Size_<int>(cv::aruco::CharucoBoard::*)() const>("get_chessboard_size", &cv::aruco::CharucoBoard::getChessboardSize).
+    define_method<float(cv::aruco::CharucoBoard::*)() const>("get_square_length", &cv::aruco::CharucoBoard::getSquareLength).
+    define_method<float(cv::aruco::CharucoBoard::*)() const>("get_marker_length", &cv::aruco::CharucoBoard::getMarkerLength).
+    define_method<std::vector<cv::Point3_<float>>(cv::aruco::CharucoBoard::*)() const>("get_chessboard_corners", &cv::aruco::CharucoBoard::getChessboardCorners).
+    define_method<std::vector<std::vector<int>>(cv::aruco::CharucoBoard::*)() const>("get_nearest_marker_idx", &cv::aruco::CharucoBoard::getNearestMarkerIdx).
+    define_method<std::vector<std::vector<int>>(cv::aruco::CharucoBoard::*)() const>("get_nearest_marker_corners", &cv::aruco::CharucoBoard::getNearestMarkerCorners).
+    define_method<bool(cv::aruco::CharucoBoard::*)(const cv::_InputArray &) const>("check_charuco_corners_collinear", &cv::aruco::CharucoBoard::checkCharucoCornersCollinear).
+    define_constructor(Constructor<cv::aruco::CharucoBoard>());
+}

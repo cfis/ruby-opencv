@@ -1,18 +1,14 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby; coding: utf-8 -*-
-require 'test/unit'
-require 'opencv'
 require File.expand_path(File.dirname(__FILE__)) + '/helper'
-
-include OpenCV
 include GUI
-
 # Tests for OpenCV::Trackbar
 class TestTrackbar < OpenCVTestCase
   def setup
     @trackbar1 = Trackbar.new('trackbar1', 100) {}
     @trackbar2 = Trackbar.new('trackbar1', 100, 1) {}
   end
+
   
   def test_initialize
     assert_not_nil(Trackbar.new('trackbar', 100, 1) {})
@@ -20,7 +16,6 @@ class TestTrackbar < OpenCVTestCase
     block = proc {}
     assert_not_nil(Trackbar.new('trackbar', 100, 1, &block))
     assert_not_nil(Trackbar.new('trackbar', 100, &block))
-
     assert_raise(TypeError) {
       Trackbar.new(123, 100, 1) {}
     }
@@ -44,4 +39,3 @@ class TestTrackbar < OpenCVTestCase
     assert_equal(50, @trackbar1.value)
   end
 end
-

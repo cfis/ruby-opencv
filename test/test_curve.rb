@@ -1,18 +1,14 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby; coding: utf-8 -*-
-require 'test/unit'
-require 'opencv'
 require File.expand_path(File.dirname(__FILE__)) + '/helper'
-
-include OpenCV
 
 # Tests for OpenCV::Curve
 class TestCurve < OpenCVTestCase
   def setup
-    @contour1 = CvContour.new
+    @contour1 = Cv::Contour.new
     
     mat0 = create_cvmat(128, 128, :cv8u, 1) { |j, i|
-      (j - 64) ** 2 + (i - 64) ** 2 <= (32 ** 2) ? CvColor::White : CvColor::Black
+      (j - 64) ** 2 + (i - 64) ** 2 <= (32 ** 2) ? Cv::Color::White : Cv::Color::Black
     }
     @contour2 = mat0.find_contours
   end
@@ -36,8 +32,7 @@ class TestCurve < OpenCVTestCase
 
   def test_arc_length
     assert_in_delta(211.480, @contour2.arc_length, 0.001)
-    assert_in_delta(32.181, @contour2.arc_length(CvSlice.new(0, 9), true), 0.001)
+    assert_in_delta(32.181, @contour2.arc_length(Cv::Slice.new(0, 9), true), 0.001)
     assert_in_delta(32.181, @contour2.arc_length(0..10, true), 0.001)
   end
 end
-

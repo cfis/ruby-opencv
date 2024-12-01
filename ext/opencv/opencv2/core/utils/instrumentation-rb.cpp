@@ -1,0 +1,65 @@
+#include <opencv2/core/utils/instrumentation.hpp>
+#include "instrumentation-rb.hpp"
+
+using namespace Rice;
+
+extern "C"
+void Init_Instrumentation()
+{
+  Module rb_mCv = define_module("Cv");
+  
+  Module rb_mCvInstr = define_module_under(rb_mCv, "Instr");
+  
+  Enum<cv::instr::TYPE> rb_cCvInstrTYPE = define_enum<cv::instr::TYPE>("TYPE", rb_mCvInstr).
+    define_value("TYPE_GENERAL", cv::instr::TYPE::TYPE_GENERAL).
+    define_value("TYPE_MARKER", cv::instr::TYPE::TYPE_MARKER).
+    define_value("TYPE_WRAPPER", cv::instr::TYPE::TYPE_WRAPPER).
+    define_value("TYPE_FUN", cv::instr::TYPE::TYPE_FUN);
+  
+  Enum<cv::instr::IMPL> rb_cCvInstrIMPL = define_enum<cv::instr::IMPL>("IMPL", rb_mCvInstr).
+    define_value("IMPL_PLAIN", cv::instr::IMPL::IMPL_PLAIN).
+    define_value("IMPL_IPP", cv::instr::IMPL::IMPL_IPP).
+    define_value("IMPL_OPENCL", cv::instr::IMPL::IMPL_OPENCL);
+  
+  Class rb_cCvInstrNodeDataTls = define_class_under<cv::instr::NodeDataTls>(rb_mCvInstr, "NodeDataTls").
+    define_constructor(Constructor<cv::instr::NodeDataTls>()).
+    define_attr("m_ticks_total", &cv::instr::NodeDataTls::m_ticksTotal);
+  
+  Class rb_cCvInstrNodeData = define_class_under<cv::instr::NodeData>(rb_mCvInstr, "NodeData").
+    define_constructor(Constructor<cv::instr::NodeData, const char*, const char*, int, void*, bool, cv::instr::TYPE, cv::instr::IMPL>()).
+    define_constructor(Constructor<cv::instr::NodeData, cv::instr::NodeData&>()).
+    define_method<cv::instr::NodeData&(cv::instr::NodeData::*)(const cv::instr::NodeData&)>("operator=", &cv::instr::NodeData::operator=).
+    define_attr("m_fun_name", &cv::instr::NodeData::m_funName).
+    define_attr("m_instr_type", &cv::instr::NodeData::m_instrType).
+    define_attr("m_impl_type", &cv::instr::NodeData::m_implType).
+    define_attr("m_file_name", &cv::instr::NodeData::m_fileName).
+    define_attr("m_line_num", &cv::instr::NodeData::m_lineNum).
+    define_attr("m_ret_address", &cv::instr::NodeData::m_retAddress).
+    define_attr("m_always_expand", &cv::instr::NodeData::m_alwaysExpand).
+    define_attr("m_fun_error", &cv::instr::NodeData::m_funError).
+    define_attr("m_counter", &cv::instr::NodeData::m_counter).
+    define_attr("m_ticks_total", &cv::instr::NodeData::m_ticksTotal).
+    define_attr("m_tls", &cv::instr::NodeData::m_tls).
+    define_attr("m_threads", &cv::instr::NodeData::m_threads).
+    define_method<double(cv::instr::NodeData::*)() const>("get_total_ms", &cv::instr::NodeData::getTotalMs).
+    define_method<double(cv::instr::NodeData::*)() const>("get_mean_ms", &cv::instr::NodeData::getMeanMs);
+  
+  rb_mCvInstr.define_module_function<bool(*)(const cv::instr::NodeData&, const cv::instr::NodeData&)>("operator==", &cv::instr::operator==);
+  
+  rb_mCvInstr.define_module_function<cv::Node<cv::instr::NodeData>*(*)()>("get_trace", &cv::instr::getTrace);
+  
+  rb_mCvInstr.define_module_function<bool(*)()>("use_instrumentation", &cv::instr::useInstrumentation);
+  
+  rb_mCvInstr.define_module_function<void(*)(bool)>("set_use_instrumentation", &cv::instr::setUseInstrumentation);
+  
+  rb_mCvInstr.define_module_function<void(*)()>("reset_trace", &cv::instr::resetTrace);
+  
+  Enum<cv::instr::FLAGS> rb_cCvInstrFLAGS = define_enum<cv::instr::FLAGS>("FLAGS", rb_mCvInstr).
+    define_value("FLAGS_NONE", cv::instr::FLAGS::FLAGS_NONE).
+    define_value("FLAGS_MAPPING", cv::instr::FLAGS::FLAGS_MAPPING).
+    define_value("FLAGS_EXPAND_SAME_NAMES", cv::instr::FLAGS::FLAGS_EXPAND_SAME_NAMES);
+  
+  rb_mCvInstr.define_module_function<void(*)(cv::instr::FLAGS)>("set_flags", &cv::instr::setFlags);
+  
+  rb_mCvInstr.define_module_function<cv::instr::FLAGS(*)()>("get_flags", &cv::instr::getFlags);
+}

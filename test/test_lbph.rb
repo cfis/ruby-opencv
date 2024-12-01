@@ -1,20 +1,15 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby; coding: utf-8-unix -*- 
-require 'test/unit'
-require 'opencv'
 require 'date'
 require File.expand_path(File.dirname(__FILE__)) + '/helper'
-
-include OpenCV
 
 # Tests for OpenCV::LBPH
 class TestLBPH < OpenCVTestCase
   def setup
     @lbph = LBPH.new
-
     @lbph_trained = LBPH.new
     @lbph_update = LBPH.new
-    @images = [CvMat.load(FILENAME_LENA256x256, CV_LOAD_IMAGE_GRAYSCALE)] * 2
+    @images = [Cv::Mat.load(FILENAME_LENA256x256, CV_LOAD_IMAGE_GRAYSCALE)] * 2
     @labels = [1, 2]
     @lbph_trained.train(@images, @labels)
   end
@@ -23,7 +18,6 @@ class TestLBPH < OpenCVTestCase
     [LBPH.new, LBPH.new(1), LBPH.new(1, 2, 3, 4, 5.0)].each { |lbph|
       assert_equal(LBPH, lbph.class)
     }
-
     assert_raise(TypeError) {
       LBPH.new(DUMMY_OBJ)
     }
@@ -43,11 +37,9 @@ class TestLBPH < OpenCVTestCase
 
   def test_train
     assert_nil(@lbph.train(@images, @labels))
-
     assert_raise(TypeError) {
       @lbph.train(DUMMY_OBJ, @labels)
     }
-
     assert_raise(TypeError) {
       @lbph.train(@images, DUMMY_OBJ)
     }
@@ -56,11 +48,9 @@ class TestLBPH < OpenCVTestCase
   def test_update
     assert_nil(@lbph_update.train([@images[0]], [@labels[0]]))
     assert_nil(@lbph_update.update([@images[1]], [@labels[1]]))
-
     assert_raise(TypeError) {
       @lbph_update.update(DUMMY_OBJ, @labels)
     }
-
     assert_raise(TypeError) {
       @lbph_update.update(@images, DUMMY_OBJ)
     }
@@ -70,7 +60,6 @@ class TestLBPH < OpenCVTestCase
     predicted_label, predicted_confidence = @lbph_trained.predict(@images[0])
     assert_equal(@labels[0], predicted_label)
     assert_in_delta(0.0, predicted_confidence, 0.01)
-
     assert_raise(TypeError) {
       @lbph_trained.predict(DUMMY_OBJ)
     }
@@ -107,7 +96,6 @@ class TestLBPH < OpenCVTestCase
     assert_equal(8, @lbph.get_int('neighbors'))
     assert_equal(8, @lbph.get_int('grid_x'))
     assert_equal(8, @lbph.get_int('grid_y'))
-
     assert_raise(TypeError) {
       @lbph.get_int(DUMMY_OBJ)
     }
@@ -115,7 +103,6 @@ class TestLBPH < OpenCVTestCase
 
   def test_get_double
     assert_equal(Float::MAX, @lbph.get_double('threshold'))
-
     assert_raise(TypeError) {
       @lbph.get_double(DUMMY_OBJ)
     }
@@ -125,8 +112,7 @@ class TestLBPH < OpenCVTestCase
     histgrams = @lbph_trained.get_matvector('histograms')
     assert_equal(Array, histgrams.class)
     assert_equal(2, histgrams.size)
-    assert_equal(CvMat, histgrams[0].class)
-
+    assert_equal(Cv::Mat, histgrams[0].class)
     assert_raise(TypeError) {
       @lbph.get_matvector(DUMMY_OBJ)
     }
@@ -137,12 +123,10 @@ class TestLBPH < OpenCVTestCase
     @lbph.set_int('neighbors', 3)
     @lbph.set_int('grid_x', 4)
     @lbph.set_int('grid_y', 5)
-
     assert_equal(2, @lbph.get_int('radius'))
     assert_equal(3, @lbph.get_int('neighbors'))
     assert_equal(4, @lbph.get_int('grid_x'))
     assert_equal(5, @lbph.get_int('grid_y'))
-
     assert_raise(TypeError) {
       @lbph.set_int(DUMMY_OBJ, 1)
     }
@@ -154,7 +138,6 @@ class TestLBPH < OpenCVTestCase
   def test_set_double
     @lbph.set_double('threshold', 1.0)
     assert_in_delta(1.0, @lbph.get_double('threshold'), 0.001)
-
     assert_raise(TypeError) {
       @lbph.set_double(DUMMY_OBJ, 1.0)
     }
@@ -163,4 +146,3 @@ class TestLBPH < OpenCVTestCase
     }
   end
 end
-
