@@ -1,24 +1,35 @@
 #!/usr/bin/env ruby
 # -*- mode: ruby; coding: utf-8 -*-
-require 'test/unit'
-require 'digest/md5'
-require 'opencv'
-include OpenCV
+# To make testing/debugging easier test within this source tree versus an installed gem
+require 'bundler/setup'
 
-class OpenCVTestCase < Test::Unit::TestCase
-  SAMPLE_DIR = File.expand_path(File.dirname(__FILE__)) + '/samples/'
-  FILENAME_CAT = SAMPLE_DIR + 'cat.jpg'
-  FILENAME_LENA256x256 = SAMPLE_DIR + 'lena-256x256.jpg'
-  FILENAME_LENA32x32 = SAMPLE_DIR + 'lena-32x32.jpg'
-  FILENAME_LENA_EYES = File.expand_path(File.dirname(__FILE__)) + '/samples/lena-eyes.jpg'
-  FILENAME_FRUITS = SAMPLE_DIR + 'fruits.jpg'
-  FILENAME_CONTOURS = File.expand_path(File.dirname(__FILE__)) + '/samples/contours.jpg'
-  FILENAME_CHESSBOARD = SAMPLE_DIR + 'chessboard.jpg'
-  FILENAME_LINES = SAMPLE_DIR + 'lines.jpg'
-  HAARCASCADE_FRONTALFACE_ALT = SAMPLE_DIR + 'haarcascade_frontalface_alt.xml.gz'
-  AVI_SAMPLE = SAMPLE_DIR + 'movie_sample.avi'
+# Add ext directory to load path to make it easier to test locally built extensions
+ext_path = File.expand_path(File.join(__dir__, '..', 'ext', 'opencv', 'out', 'build', 'x64-Debug'))
+#ext_path = File.expand_path(File.join(__dir__, '..', 'ext', 'opencv', 'cmake-build-debug-mingw'))
+#ext_path = File.expand_path(File.join(__dir__, '..', 'ext', 'opencv', 'cmake-build-debug-visual-studio'))
+$LOAD_PATH.unshift(ext_path)
 
-  DUMMY_OBJ = Digest::MD5.new # dummy object for argument type check test
+# Now load code
+require 'digest'
+require 'ruby-opencv'
+require 'minitest/autorun'
+
+class OpenCVTestCase < Minitest::Test
+  #FILENAME_CAT = self.sample_path('cat.jpg')
+  #FILENAME_FRUITS = self.sample_path('fruits.jpg')
+  #FILENAME_CONTOURS = File.join(__dir__, 'samples', 'contours.jpg')
+  #FILENAME_CHESSBOARD = self.sample_path('chessboard.jpg')
+  #FILENAME_LINES = self.sample_path('lines.jpg')
+  #HAARCASCADE_FRONTALFACE_ALT = self.sample_path('haarcascade_frontalface_alt.xml.gz')
+  #AVI_SAMPLE = self.sample_path('movie_sample.avi')
+
+  def self.sample_path(file_name)
+    File.join(__dir__, 'samples', file_name)
+  end
+
+  def sample_path(file_name)
+    File.join(__dir__, 'samples', file_name)
+  end
 
   def snap(*images)
     n = -1
@@ -32,8 +43,7 @@ class OpenCVTestCase < Test::Unit::TestCase
         {:title => "snap-#{n}", :image => val }
       end
     }
-
-    pos = CvPoint.new(0, 0)
+    pos = Cv::Point.new(0, 0)
     images.each { |img|
       w = GUI::Window.new(img[:title])
       w.show(img[:image])
@@ -54,16 +64,8 @@ class OpenCVTestCase < Test::Unit::TestCase
     Digest::MD5.hexdigest(img.data)
   end
 
-  unless Test::Unit::TestCase.instance_methods.map {|m| m.to_sym }.include? :assert_false
-    def assert_false(actual, message = nil)
-      assert_equal(false, actual, message)
-    end
-  end
-
-  alias original_assert_in_delta assert_in_delta
-
   def assert_cvscalar_equal(expected, actual, message = nil)
-    assert_equal(CvScalar, actual.class, message)
+    assert_equal(Cv::Scalar, actual.class, message)
     assert_array_equal(expected.to_ary, actual.to_ary, message)
   end
 
@@ -73,38 +75,39 @@ class OpenCVTestCase < Test::Unit::TestCase
       assert_equal(e, a, message)
     }
   end
-  
-  def assert_in_delta(expected, actual, delta)
-    if expected.is_a? CvScalar or actual.is_a? CvScalar
-      expected = expected.to_ary if expected.is_a? CvScalar
-      actual = actual.to_ary if actual.is_a? CvScalar
-      assert_in_delta(expected, actual ,delta)
-    elsif expected.is_a? Array and actual.is_a? Array
-      assert_equal(expected.size, actual.size)
-      expected.zip(actual) { |e, a|
-        original_assert_in_delta(e, a, delta)
-      }
-    else
-      original_assert_in_delta(expected, actual, delta)
+
+  def assert_in_delta_array(expected, actual, delta = 0.001)
+    assert(expected.is_a?(Array), "Expected value should be an array")
+    assert(actual.is_a?(Array), "Actual value should be an array")
+    assert_equal(expected.size, actual.size)
+    expected.size.times do |i|
+      assert_in_delta(expected[i], actual[i], delta)
     end
   end
 
-  def create_cvmat(height, width, depth = :cv8u, channel = 4, &block)
-    m = CvMat.new(height, width, depth, channel)
-    block = lambda { |j, i, c| CvScalar.new(*([c + 1] * channel)) } unless block_given?
+  def create_cvmat(height, width, mat_klass = Cv::Mat4b, &block)
+    vec_klass_name = mat_klass.name.sub("Mat", "Vec")
+    vec_klass = Cv.const_get(vec_klass_name)
+
+    mat = mat_klass.new(height, width)
+
+    block = lambda do |row, column, count|
+      vec_klass.new([count + 1] * mat.channels)
+    end unless block_given?
+
     count = 0
-    height.times { |j|
-      width.times { |i|
-        m[j, i] = block.call(j, i, count)
+    height.times do |row|
+      width.times do |column|
+        mat[row, column] = block.call(row, column, count)
         count += 1
-      }
-    }
-    m
+      end
+    end
+    mat
   end
 
-  def create_iplimage(width, height, depth = :cv8u, channel = 4, &block)
+  def create_iplimage(width, height, depth = CV_8U, channel = 4, &block)
     m = IplImage.new(width, height, depth, channel)
-    block = lambda { |j, i, c| CvScalar.new(*([c + 1] * channel)) } unless block_given?
+    block = lambda { |j, i, c| Cv::Scalar.new(*([c + 1] * channel)) } unless block_given?
     count = 0
     height.times { |j|
       width.times { |i|
@@ -122,7 +125,7 @@ class OpenCVTestCase < Test::Unit::TestCase
       actual.width.times { |i|
         expected = block.call(j, i, count)
         if delta == 0
-          expected = expected.to_ary if expected.is_a? CvScalar
+          expected = expected.to_ary if expected.is_a? Cv::Scalar
           assert_array_equal(expected, actual[j, i].to_ary)
         else
           assert_in_delta(expected, actual[j, i], delta)
@@ -163,5 +166,11 @@ class OpenCVTestCase < Test::Unit::TestCase
     }
     hists
   end
-end
 
+  def show_image(image)
+    window = Cv::named_window("Test", Cv::WindowFlags::WINDOW_AUTOSIZE)
+    input_array = Cv::InputArray.new(image)
+    Cv::imshow("Test", input_array)
+    Cv::wait_key
+  end
+end
