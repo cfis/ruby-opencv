@@ -1,0 +1,25 @@
+--input
+C:\Source\vcpkg\installed\x64-windows\include
+--include
+opencv2/core/mat.hpp
+--exclude
+opencv2/**/*.inl.hpp
+--exclude
+opencv2/core/hal/**/*
+--exclude
+opencv2/core/opencl/**/*
+--exclude
+opencv2/cudalegacy/**/*
+--output
+C:\Source\ruby-opencv\ext\opencv
+--format
+rice
+--
+"-IC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120\include"
+"-IC:\\Program Files (x86)\\Windows Kits\\10\\include\\10.0.22621.0\\ucrt"
+"-IC:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\Llvm\lib\clang\17\include"
+-x
+cuda
+--cuda-path="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.6"
+--no-cuda-version-check
+-Wno-unknown-cuda-version
