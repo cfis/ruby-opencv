@@ -18,6 +18,9 @@ void Init_SeamFinders()
     define_singleton_function<cv::Ptr<cv::detail::SeamFinder>(*)(int)>("create_default", &cv::detail::SeamFinder::createDefault,
       Arg("type"));
   
+  rb_cCvDetailSeamFinder.define_constant("NO", cv::detail::SeamFinder::NO);
+  rb_cCvDetailSeamFinder.define_constant("VORONOI_SEAM", cv::detail::SeamFinder::VORONOI_SEAM);
+  rb_cCvDetailSeamFinder.define_constant("DP_SEAM", cv::detail::SeamFinder::DP_SEAM);
   
   Class rb_cCvDetailNoSeamFinder = define_class_under<cv::detail::NoSeamFinder, cv::detail::SeamFinder>(rb_mCvDetail, "NoSeamFinder").
     define_constructor(Constructor<cv::detail::NoSeamFinder>()).

@@ -7,7 +7,8 @@ using namespace Rice;
 template<typename Data_Type_T, typename T>
 inline void DevPtr_builder(Data_Type_T& klass)
 {
-  klass.define_attr("data", &cv::cuda::DevPtr<T>::data).
+  klass.define_constant("Elem_size", (int)cv::cuda::DevPtr<T>::elem_size).
+    define_attr("data", &cv::cuda::DevPtr<T>::data).
     define_constructor(Constructor<cv::cuda::DevPtr::DevPtr<T>>()).
     define_constructor(Constructor<cv::cuda::DevPtr::DevPtr<T>, T*>(),
       Arg("data_")).

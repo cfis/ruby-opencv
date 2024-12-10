@@ -37,6 +37,11 @@ void Init_Objdetect()
     define_method<void(cv::DefaultDeleter<CvHaarClassifierCascade>::*)(CvHaarClassifierCascade*) const>("()", &cv::DefaultDeleter<CvHaarClassifierCascade>::operator(),
       Arg("obj"));
   
+  rb_mCv.define_constant("CASCADE_DO_CANNY_PRUNING", cv::cv::CASCADE_DO_CANNY_PRUNING);
+  rb_mCv.define_constant("CASCADE_SCALE_IMAGE", cv::cv::CASCADE_SCALE_IMAGE);
+  rb_mCv.define_constant("CASCADE_FIND_BIGGEST_OBJECT", cv::cv::CASCADE_FIND_BIGGEST_OBJECT);
+  rb_mCv.define_constant("CASCADE_DO_ROUGH_SEARCH", cv::cv::CASCADE_DO_ROUGH_SEARCH);
+  
   Class rb_cCvBaseCascadeClassifier = define_class_under<cv::BaseCascadeClassifier, cv::Algorithm>(rb_mCv, "BaseCascadeClassifier").
     define_method<bool(cv::BaseCascadeClassifier::*)() const>("empty?", &cv::BaseCascadeClassifier::empty).
     define_method<bool(cv::BaseCascadeClassifier::*)(const cv::String&)>("load?", &cv::BaseCascadeClassifier::load,
@@ -157,6 +162,7 @@ void Init_Objdetect()
   Enum<cv::HOGDescriptor::HistogramNormType> rb_cCvHOGDescriptorHistogramNormType = define_enum_under<cv::HOGDescriptor::HistogramNormType>("HistogramNormType", rb_cCvHOGDescriptor).
     define_value("L2Hys", cv::HOGDescriptor::HistogramNormType::L2Hys);
   
+  rb_cCvHOGDescriptor.define_constant("DEFAULT_NLEVELS", cv::HOGDescriptor::DEFAULT_NLEVELS);
   
   Enum<cv::HOGDescriptor::DescriptorStorageFormat> rb_cCvHOGDescriptorDescriptorStorageFormat = define_enum_under<cv::HOGDescriptor::DescriptorStorageFormat>("DescriptorStorageFormat", rb_cCvHOGDescriptor).
     define_value("DESCR_FORMAT_COL_BY_COL", cv::HOGDescriptor::DescriptorStorageFormat::DESCR_FORMAT_COL_BY_COL).

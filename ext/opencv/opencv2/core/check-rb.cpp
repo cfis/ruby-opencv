@@ -1,10 +1,10 @@
 #include <sstream>
-#include <opencv2/core/types.hpp>
 #include <opencv2/core/check.hpp>
-
 #include "check-rb.hpp"
 
 using namespace Rice;
+
+
 
 void Init_Check()
 {
@@ -59,8 +59,8 @@ void Init_Check()
   rb_mCvDetail.define_module_function<void(*)(const double, const double, const cv::detail::CheckContext&)>("check_failed_auto", &cv::detail::check_failed_auto,
     Arg("v1"), Arg("v2"), Arg("ctx"));
   
-  rb_mCvDetail.define_module_function<void(*)(const cv::Size_<int>, const cv::Size_<int>, const cv::detail::CheckContext&)>("check_failed_auto", &cv::detail::check_failed_auto,
-    Arg("v1"), Arg("v2"), Arg("ctx"));
+  //rb_mCvDetail.define_module_function<void(*)(const cv::Size_<int>, const cv::Size_<int>, const cv::detail::CheckContext&)>("check_failed_auto", &cv::detail::check_failed_auto,
+  //  Arg("v1"), Arg("v2"), Arg("ctx"));
   
   rb_mCvDetail.define_module_function<void(*)(const int, const int, const cv::detail::CheckContext&)>("check_failed_mat_depth", &cv::detail::check_failed_MatDepth,
     Arg("v1"), Arg("v2"), Arg("ctx"));
@@ -89,8 +89,8 @@ void Init_Check()
   rb_mCvDetail.define_module_function<void(*)(const double, const cv::detail::CheckContext&)>("check_failed_auto", &cv::detail::check_failed_auto,
     Arg("v"), Arg("ctx"));
   
-  rb_mCvDetail.define_module_function<void(*)(const cv::Size_<int>, const cv::detail::CheckContext&)>("check_failed_auto", &cv::detail::check_failed_auto,
-    Arg("v"), Arg("ctx"));
+//  rb_mCvDetail.define_module_function<void(*)(const cv::Size_<int>, const cv::detail::CheckContext&)>("check_failed_auto", &cv::detail::check_failed_auto,
+ //   Arg("v"), Arg("ctx"));
   
   rb_mCvDetail.define_module_function<void(*)(const std::string&, const cv::detail::CheckContext&)>("check_failed_auto", &cv::detail::check_failed_auto,
     Arg("v1"), Arg("ctx"));

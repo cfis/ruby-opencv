@@ -7,17 +7,61 @@ using namespace Rice;
 template<typename Data_Type_T, bool prec, int imm4, bool part, int imm32>
 inline void _v_rotate_right_builder(Data_Type_T& klass)
 {
+  klass.template define_singleton_function<cv::v_int8x64(*)(const cv::v_int8x64&, const cv::v_int8x64&)>("eval", &cv::::_v_rotate_right<prec, imm4, part, imm32>::eval,
+      Arg(""), Arg(""));
 };
 
 
 void Init_IntrinAvx512()
 {
   Class(rb_cObject).define_constant("CVT_ROUND_MODES_IMPLEMENTED", CVT_ROUND_MODES_IMPLEMENTED);
-  Class(rb_cObject).define_constant("CV_SIMD512", CV_SIMD512);
-  Class(rb_cObject).define_constant("CV_SIMD512_64F", CV_SIMD512_64F);
-  Class(rb_cObject).define_constant("CV_SIMD512_FP16", CV_SIMD512_FP16);
-  Module rb_m = define_module("");
   
+  Class(rb_cObject).define_constant("CV_SIMD512", CV_SIMD512);
+  
+  Class(rb_cObject).define_constant("CV_SIMD512_64F", CV_SIMD512_64F);
+  
+  Class(rb_cObject).define_constant("CV_SIMD512_FP16", CV_SIMD512_FP16);
+  
+  Module rb_mAnonymous = define_module("Anonymous");
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&, const int&)>("_v512_combine", &::_v512_combine,
+    Arg("lo"), Arg("hi"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&, const int&)>("_v512_combine", &::_v512_combine,
+    Arg("lo"), Arg("hi"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&, const int&)>("_v512_combine", &::_v512_combine,
+    Arg("lo"), Arg("hi"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&)>("_v_cvtsi512_si32", &::_v_cvtsi512_si32,
+    Arg("a"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&)>("_v512_extract_high", &::_v512_extract_high,
+    Arg("v"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&)>("_v512_extract_high", &::_v512_extract_high,
+    Arg("v"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&)>("_v512_extract_high", &::_v512_extract_high,
+    Arg("v"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&)>("_v512_extract_low", &::_v512_extract_low,
+    Arg("v"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&)>("_v512_extract_low", &::_v512_extract_low,
+    Arg("v"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&)>("_v512_extract_low", &::_v512_extract_low,
+    Arg("v"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&, const int&)>("_v512_insert", &::_v512_insert,
+    Arg("a"), Arg("b"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&, const int&)>("_v512_insert", &::_v512_insert,
+    Arg("a"), Arg("b"));
+  
+  rb_mAnonymous.define_module_function<int(*)(const int&, const int&)>("_v512_insert", &::_v512_insert,
+    Arg("a"), Arg("b"));
   
   Module rb_mCv = define_module("Cv");
   
@@ -31,6 +75,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_uint8x64(*)()>("zero", &cv::v_uint8x64::zero).
     define_method<int(cv::v_uint8x64::*)() const>("get0", &cv::v_uint8x64::get0);
   
+  rb_cCvVUint8x64.define_constant("Nlanes", cv::v_uint8x64::nlanes);
   
   Class rb_cCvVInt8x64 = define_class_under<cv::v_int8x64>(rb_mCv, "VInt8x64").
     define_attr("val", &cv::v_int8x64::val).
@@ -42,6 +87,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_int8x64(*)()>("zero", &cv::v_int8x64::zero).
     define_method<int(cv::v_int8x64::*)() const>("get0", &cv::v_int8x64::get0);
   
+  rb_cCvVInt8x64.define_constant("Nlanes", cv::v_int8x64::nlanes);
   
   Class rb_cCvVUint16x32 = define_class_under<cv::v_uint16x32>(rb_mCv, "VUint16x32").
     define_attr("val", &cv::v_uint16x32::val).
@@ -53,6 +99,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_uint16x32(*)()>("zero", &cv::v_uint16x32::zero).
     define_method<int(cv::v_uint16x32::*)() const>("get0", &cv::v_uint16x32::get0);
   
+  rb_cCvVUint16x32.define_constant("Nlanes", cv::v_uint16x32::nlanes);
   
   Class rb_cCvVInt16x32 = define_class_under<cv::v_int16x32>(rb_mCv, "VInt16x32").
     define_attr("val", &cv::v_int16x32::val).
@@ -64,6 +111,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_int16x32(*)()>("zero", &cv::v_int16x32::zero).
     define_method<short(cv::v_int16x32::*)() const>("get0", &cv::v_int16x32::get0);
   
+  rb_cCvVInt16x32.define_constant("Nlanes", cv::v_int16x32::nlanes);
   
   Class rb_cCvVUint32x16 = define_class_under<cv::v_uint32x16>(rb_mCv, "VUint32x16").
     define_attr("val", &cv::v_uint32x16::val).
@@ -75,6 +123,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_uint32x16(*)()>("zero", &cv::v_uint32x16::zero).
     define_method<unsigned int(cv::v_uint32x16::*)() const>("get0", &cv::v_uint32x16::get0);
   
+  rb_cCvVUint32x16.define_constant("Nlanes", cv::v_uint32x16::nlanes);
   
   Class rb_cCvVInt32x16 = define_class_under<cv::v_int32x16>(rb_mCv, "VInt32x16").
     define_attr("val", &cv::v_int32x16::val).
@@ -86,6 +135,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_int32x16(*)()>("zero", &cv::v_int32x16::zero).
     define_method<int(cv::v_int32x16::*)() const>("get0", &cv::v_int32x16::get0);
   
+  rb_cCvVInt32x16.define_constant("Nlanes", cv::v_int32x16::nlanes);
   
   Class rb_cCvVFloat32x16 = define_class_under<cv::v_float32x16>(rb_mCv, "VFloat32x16").
     define_attr("val", &cv::v_float32x16::val).
@@ -97,6 +147,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_float32x16(*)()>("zero", &cv::v_float32x16::zero).
     define_method<float(cv::v_float32x16::*)() const>("get0", &cv::v_float32x16::get0);
   
+  rb_cCvVFloat32x16.define_constant("Nlanes", cv::v_float32x16::nlanes);
   
   Class rb_cCvVUint64x8 = define_class_under<cv::v_uint64x8>(rb_mCv, "VUint64x8").
     define_attr("val", &cv::v_uint64x8::val).
@@ -108,6 +159,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_uint64x8(*)()>("zero", &cv::v_uint64x8::zero).
     define_method<int(cv::v_uint64x8::*)() const>("get0", &cv::v_uint64x8::get0);
   
+  rb_cCvVUint64x8.define_constant("Nlanes", cv::v_uint64x8::nlanes);
   
   Class rb_cCvVInt64x8 = define_class_under<cv::v_int64x8>(rb_mCv, "VInt64x8").
     define_attr("val", &cv::v_int64x8::val).
@@ -119,6 +171,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_int64x8(*)()>("zero", &cv::v_int64x8::zero).
     define_method<int(cv::v_int64x8::*)() const>("get0", &cv::v_int64x8::get0);
   
+  rb_cCvVInt64x8.define_constant("Nlanes", cv::v_int64x8::nlanes);
   
   Class rb_cCvVFloat64x8 = define_class_under<cv::v_float64x8>(rb_mCv, "VFloat64x8").
     define_attr("val", &cv::v_float64x8::val).
@@ -130,6 +183,7 @@ void Init_IntrinAvx512()
     define_singleton_function<cv::v_float64x8(*)()>("zero", &cv::v_float64x8::zero).
     define_method<double(cv::v_float64x8::*)() const>("get0", &cv::v_float64x8::get0);
   
+  rb_cCvVFloat64x8.define_constant("Nlanes", cv::v_float64x8::nlanes);
   
   rb_mCv.define_module_function<cv::v_float32x16(*)(const cv::v_float32x16&)>("v_reinterpret_as_f32", &cv::v_reinterpret_as_f32,
     Arg("a"));
@@ -255,8 +309,22 @@ void Init_IntrinAvx512()
   rb_mCv.define_module_function<cv::v_float64x8(*)(const cv::v_float64x8&)>("v_not_nan", &cv::v_not_nan,
     Arg("a"));
   
-  Module rb_mCv = define_module_under(rb_mCv, "");
+  Module rb_mCvAnonymous = define_module_under(rb_mCv, "Anonymous");
   
+  Class rb_cCv(anonymousNamespace)VRotateRightFalse0False0 = define_class_under<cv::(anonymous namespace)::_v_rotate_right<false, 0, false, 0>>(rb_mCvAnonymous, "VRotateRightFalse0False0").
+    define_constructor(Constructor<cv::(anonymous namespace)::_v_rotate_right<false, 0, false, 0>>()).
+    define_singleton_function<cv::v_int8x64(*)(const cv::v_int8x64&, const cv::v_int8x64&)>("eval", &cv::::_v_rotate_right<false, 0, false, 0>::eval,
+      Arg("a"), Arg(""));
+  
+  Class rb_cCv(anonymousNamespace)VRotateRightFalse0True16 = define_class_under<cv::(anonymous namespace)::_v_rotate_right<false, 0, true, 16>>(rb_mCvAnonymous, "VRotateRightFalse0True16").
+    define_constructor(Constructor<cv::(anonymous namespace)::_v_rotate_right<false, 0, true, 16>>()).
+    define_singleton_function<cv::v_int8x64(*)(const cv::v_int8x64&, const cv::v_int8x64&)>("eval", &cv::::_v_rotate_right<false, 0, true, 16>::eval,
+      Arg(""), Arg("b"));
+  
+  Class rb_cCv(anonymousNamespace)VRotateRightFalse0True32 = define_class_under<cv::(anonymous namespace)::_v_rotate_right<false, 0, true, 32>>(rb_mCvAnonymous, "VRotateRightFalse0True32").
+    define_constructor(Constructor<cv::(anonymous namespace)::_v_rotate_right<false, 0, true, 32>>()).
+    define_singleton_function<cv::v_int8x64(*)(const cv::v_int8x64&, const cv::v_int8x64&)>("eval", &cv::::_v_rotate_right<false, 0, true, 32>::eval,
+      Arg(""), Arg(""));
   
   rb_mCv.define_module_function<cv::v_uint8x64(*)(const cv::v_uint8x64&)>("v_reverse", &cv::v_reverse,
     Arg("a"));

@@ -1,20 +1,22 @@
 #include <sstream>
 #include <opencv2/core.hpp>
-#include <opencv2/core/traits.hpp>
 #include <opencv2/core/matx.hpp>
-
 #include "traits-rb.hpp"
 #include "matx-rb.hpp"
 
 using namespace Rice;
 
-Rice::Class rb_cMatx44d;
+Class rb_cMatx44d;
 
 template<typename Data_Type_T, typename _Tp, int m, int n>
 inline void Matx_builder(Data_Type_T& klass)
 {
-  klass.define_constructor(Constructor<cv::Matx::Matx<_Tp, m, n>>()).
-    /*define_constructor(Constructor<cv::Matx::Matx<_Tp, m, n>, _Tp>(),
+  klass.define_constant("Rows", (int)cv::Matx<_Tp, m, n>::rows).
+    define_constant("Cols", (int)cv::Matx<_Tp, m, n>::cols).
+    define_constant("Channels", (int)cv::Matx<_Tp, m, n>::channels).
+    define_constant("Shortdim", (int)cv::Matx<_Tp, m, n>::shortdim).
+    define_constructor(Constructor<cv::Matx::Matx<_Tp, m, n>>()).
+   /* define_constructor(Constructor<cv::Matx::Matx<_Tp, m, n>, _Tp>(),
       Arg("v0")).
     define_constructor(Constructor<cv::Matx::Matx<_Tp, m, n>, _Tp, _Tp>(),
       Arg("v0"), Arg("v1")).
@@ -93,20 +95,34 @@ inline void Matx_builder(Data_Type_T& klass)
     define_constructor(Constructor<cv::Matx::Matx<_Tp, m, n>, const cv::Matx<_Tp, m, n>&, const cv::Matx<_Tp, m, n>&, cv::Matx_DivOp>(),
       Arg("a"), Arg("b"), Arg("")).
     define_constructor(Constructor<cv::Matx::Matx<_Tp, m, n>, const cv::Matx<_Tp, n, m>&, cv::Matx_TOp>(),
-      Arg("a"), Arg("")).
-    define_method("inspect", [](const cv::Matx::Matx<_Tp, m, n>& self) -> std::string
+      Arg("a"), Arg(""));
+
+    // Match cv::Mat API
+    klass.define_method("rows", [](const cv::Matx<_Tp, m, n>& self) -> int
     {
-      std::ostringstream stream;
-      stream << self;
-      return stream.str();
+        return (int)cv::Matx<_Tp, m, n>::rows;
+    }).
+    define_method("cols", [](const cv::Matx<_Tp, m, n>& self) -> int
+    {
+      return (int)cv::Matx<_Tp, m, n>::cols;
+    }).
+    define_method("channels", [](const cv::Matx<_Tp, m, n>& self) -> int
+    {
+      return (int)cv::Matx<_Tp, m, n>::channels;
+    }).
+    define_method("shortdim", [](const cv::Matx<_Tp, m, n>& self) -> int
+    {
+      return (int)cv::Matx<_Tp, m, n>::shortdim;
     });
 };
 
 template<typename Data_Type_T, typename _Tp, int cn>
 inline void Vec_builder(Data_Type_T& klass)
 {
-  klass.define_constructor(Constructor<cv::Vec::Vec<_Tp, cn>>()).
-    /*define_constructor(Constructor<cv::Vec::Vec<_Tp, cn>, _Tp>(),
+  klass.define_constant("Channels", (int)cv::Vec<_Tp, cn>::channels).
+   // define_constant("_dummy_enum_finalizer", (int)cv::Vec<_Tp, cn>::_dummy_enum_finalizer).
+    define_constructor(Constructor<cv::Vec::Vec<_Tp, cn>>()).
+   /* define_constructor(Constructor<cv::Vec::Vec<_Tp, cn>, _Tp>(),
       Arg("v0")).
     define_constructor(Constructor<cv::Vec::Vec<_Tp, cn>, _Tp, _Tp>(),
       Arg("v0"), Arg("v1")).

@@ -10,6 +10,10 @@ void Init_Tracking()
 {
   Module rb_mCv = define_module("Cv");
   
+  rb_mCv.define_constant("OPTFLOW_USE_INITIAL_FLOW", cv::cv::OPTFLOW_USE_INITIAL_FLOW);
+  rb_mCv.define_constant("OPTFLOW_LK_GET_MIN_EIGENVALS", cv::cv::OPTFLOW_LK_GET_MIN_EIGENVALS);
+  rb_mCv.define_constant("OPTFLOW_FARNEBACK_GAUSSIAN", cv::cv::OPTFLOW_FARNEBACK_GAUSSIAN);
+  
   rb_mCv.define_module_function<cv::RotatedRect(*)(cv::InputArray, cv::Rect&, cv::TermCriteria)>("cam_shift", &cv::CamShift,
     Arg("prob_image"), Arg("window"), Arg("criteria"));
   
@@ -27,6 +31,11 @@ void Init_Tracking()
   
   rb_mCv.define_module_function<cv::Mat(*)(cv::InputArray, cv::InputArray, bool)>("estimate_rigid_transform", &cv::estimateRigidTransform,
     Arg("src"), Arg("dst"), Arg("full_affine"));
+  
+  rb_mCv.define_constant("MOTION_TRANSLATION", cv::cv::MOTION_TRANSLATION);
+  rb_mCv.define_constant("MOTION_EUCLIDEAN", cv::cv::MOTION_EUCLIDEAN);
+  rb_mCv.define_constant("MOTION_AFFINE", cv::cv::MOTION_AFFINE);
+  rb_mCv.define_constant("MOTION_HOMOGRAPHY", cv::cv::MOTION_HOMOGRAPHY);
   
   rb_mCv.define_module_function<double(*)(cv::InputArray, cv::InputArray, cv::InputArray)>("compute_ecc", &cv::computeECC,
     Arg("template_image"), Arg("input_image"), Arg("input_mask"));
@@ -169,6 +178,9 @@ void Init_Tracking()
     define_singleton_function<cv::Ptr<cv::DISOpticalFlow>(*)(int)>("create", &cv::DISOpticalFlow::create,
       Arg("preset"));
   
+  rb_cCvDISOpticalFlow.define_constant("PRESET_ULTRAFAST", cv::DISOpticalFlow::PRESET_ULTRAFAST);
+  rb_cCvDISOpticalFlow.define_constant("PRESET_FAST", cv::DISOpticalFlow::PRESET_FAST);
+  rb_cCvDISOpticalFlow.define_constant("PRESET_MEDIUM", cv::DISOpticalFlow::PRESET_MEDIUM);
   
   Class rb_cCvSparsePyrLKOpticalFlow = define_class_under<cv::SparsePyrLKOpticalFlow, cv::SparseOpticalFlow>(rb_mCv, "SparsePyrLKOpticalFlow").
     define_method<cv::Size(cv::SparsePyrLKOpticalFlow::*)() const>("get_win_size", &cv::SparsePyrLKOpticalFlow::getWinSize).

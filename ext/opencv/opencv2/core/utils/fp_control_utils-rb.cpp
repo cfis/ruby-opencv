@@ -9,6 +9,7 @@ using namespace Rice;
 void Init_FpControlUtils()
 {
   Class(rb_cObject).define_constant("OPENCV_SUPPORTS_FP_DENORMALS_HINT", OPENCV_SUPPORTS_FP_DENORMALS_HINT);
+  
   Module rb_mCv = define_module("Cv");
   
   Module rb_mCvDetails = define_module_under(rb_mCv, "Details");

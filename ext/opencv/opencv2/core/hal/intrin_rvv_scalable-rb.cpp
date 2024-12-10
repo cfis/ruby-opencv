@@ -13,9 +13,44 @@ inline void VTraits_builder(Data_Type_T& klass)
 void Init_IntrinRvvScalable()
 {
   Class(rb_cObject).define_constant("CV_RVV_MAX_VLEN", CV_RVV_MAX_VLEN);
+  
   Class(rb_cObject).define_constant("CV_SIMD_SCALABLE", CV_SIMD_SCALABLE);
+  
   Class(rb_cObject).define_constant("CV_SIMD_SCALABLE_64F", CV_SIMD_SCALABLE_64F);
+  
   Module rb_mCv = define_module("Cv");
+  
+  rb_mCv.define_constant("__cv_rvv_e8m1_nlanes", cv::__cv_rvv_e8m1_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e16m1_nlanes", cv::__cv_rvv_e16m1_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e32m1_nlanes", cv::__cv_rvv_e32m1_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e64m1_nlanes", cv::__cv_rvv_e64m1_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e8m2_nlanes", cv::__cv_rvv_e8m2_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e16m2_nlanes", cv::__cv_rvv_e16m2_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e32m2_nlanes", cv::__cv_rvv_e32m2_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e64m2_nlanes", cv::__cv_rvv_e64m2_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e8m4_nlanes", cv::__cv_rvv_e8m4_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e16m4_nlanes", cv::__cv_rvv_e16m4_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e32m4_nlanes", cv::__cv_rvv_e32m4_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e64m4_nlanes", cv::__cv_rvv_e64m4_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e8m8_nlanes", cv::__cv_rvv_e8m8_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e16m8_nlanes", cv::__cv_rvv_e16m8_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e32m8_nlanes", cv::__cv_rvv_e32m8_nlanes);
+  
+  rb_mCv.define_constant("__cv_rvv_e64m8_nlanes", cv::__cv_rvv_e64m8_nlanes);
   
   rb_mCv.define_module_function<float(*)(const int&)>("v_get0", &cv::v_get0,
     Arg("v"));
@@ -211,6 +246,12 @@ void Init_IntrinRvvScalable()
   
   rb_mCv.define_module_function<void(*)(const int&, const int&, int&, int&)>("v_zip", &cv::v_zip,
     Arg("a0"), Arg("a1"), Arg("b0"), Arg("b1"));
+  
+  rb_mCv.define_singleton_attr("IdxInterleavePairs", &cv::idx_interleave_pairs);
+  
+  rb_mCv.define_singleton_attr("IdxInterleaveQuads", &cv::idx_interleave_quads);
+  
+  rb_mCv.define_singleton_attr("PopCountTable", &cv::popCountTable);
   
   rb_mCv.define_module_function<int(*)(const int&)>("v_popcount", &cv::v_popcount,
     Arg("a"));

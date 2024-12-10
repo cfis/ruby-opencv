@@ -17,5 +17,8 @@ void Init_Warp()
   Class rb_cCvCudaDeviceWarp = define_class_under<cv::cuda::device::Warp>(rb_mCvCudaDevice, "Warp").
     define_constructor(Constructor<cv::cuda::device::Warp>());
   
+  rb_cCvCudaDeviceWarp.define_constant("LOG_WARP_SIZE", cv::cuda::device::Warp::LOG_WARP_SIZE);
+  rb_cCvCudaDeviceWarp.define_constant("WARP_SIZE", cv::cuda::device::Warp::WARP_SIZE);
+  rb_cCvCudaDeviceWarp.define_constant("STRIDE", cv::cuda::device::Warp::STRIDE);
 
 }

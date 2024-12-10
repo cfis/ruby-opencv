@@ -265,14 +265,19 @@ void Init_Types()
   Class rb_cCvDataTypeRotatedRect = define_class_under<cv::DataType<cv::RotatedRect>>(rb_mCv, "DataTypeRotatedRect").
     define_constructor(Constructor<cv::DataType<cv::RotatedRect>>());
   
+  rb_cCvDataTypeRotatedRect.define_constant("Generic_type", (int)cv::DataType<cv::RotatedRect>::generic_type);
+  rb_cCvDataTypeRotatedRect.define_constant("Channels", (int)cv::DataType<cv::RotatedRect>::channels);
+  rb_cCvDataTypeRotatedRect.define_constant("Fmt", (int)cv::DataType<cv::RotatedRect>::fmt);
   
   Class rb_cCvTraitsDepthRotatedRect = define_class_under<cv::traits::Depth<cv::RotatedRect>>(rb_mCvTraits, "DepthRotatedRect").
     define_constructor(Constructor<cv::traits::Depth<cv::RotatedRect>>());
   
+  rb_cCvTraitsDepthRotatedRect.define_constant("Value", (int)cv::traits::Depth<cv::RotatedRect>::value);
   
   Class rb_cCvTraitsTypeRotatedRect = define_class_under<cv::traits::Type<cv::RotatedRect>>(rb_mCvTraits, "TypeRotatedRect").
     define_constructor(Constructor<cv::traits::Type<cv::RotatedRect>>());
   
+  rb_cCvTraitsTypeRotatedRect.define_constant("Value", (int)cv::traits::Type<cv::RotatedRect>::value);
   
   Class rb_cCvRange = define_class_under<cv::Range>(rb_mCv, "Range").
     define_constructor(Constructor<cv::Range>()).
@@ -282,27 +287,26 @@ void Init_Types()
     define_method<bool(cv::Range::*)() const>("empty?", &cv::Range::empty).
     define_singleton_function<cv::Range(*)()>("all", &cv::Range::all).
     define_attr("start", &cv::Range::start).
-    define_attr("end", &cv::Range::end).
-    define_method("inspect", [](cv::Range& self) -> std::string
-      {
-        std::ostringstream stream;
-        stream << self;
-        return stream.str();
-      });
-
-
+    define_attr("end", &cv::Range::end);
+  
   Class rb_cCvDataTypeRange = define_class_under<cv::DataType<cv::Range>>(rb_mCv, "DataTypeRange").
     define_constructor(Constructor<cv::DataType<cv::Range>>());
   
+  rb_cCvDataTypeRange.define_constant("Generic_type", (int)cv::DataType<cv::Range>::generic_type);
+  rb_cCvDataTypeRange.define_constant("Channels", (int)cv::DataType<cv::Range>::channels);
+  rb_cCvDataTypeRange.define_constant("Fmt", (int)cv::DataType<cv::Range>::fmt);
   
   Class rb_cCvTraitsDepthRange = define_class_under<cv::traits::Depth<cv::Range>>(rb_mCvTraits, "DepthRange").
     define_constructor(Constructor<cv::traits::Depth<cv::Range>>());
   
+  rb_cCvTraitsDepthRange.define_constant("Value", (int)cv::traits::Depth<cv::Range>::value);
   
   Class rb_cCvTraitsTypeRange = define_class_under<cv::traits::Type<cv::Range>>(rb_mCvTraits, "TypeRange").
     define_constructor(Constructor<cv::traits::Type<cv::Range>>());
   
-  rb_cScalar = define_class_under<cv::Scalar_<double>>(rb_mCv, "Scalar").
+  rb_cCvTraitsTypeRange.define_constant("Value", (int)cv::traits::Type<cv::Range>::value);
+  
+  Class rb_cScalar = define_class_under<cv::Scalar_<double>>(rb_mCv, "Scalar").
     define(&Scalar__builder<Data_Type<cv::Scalar_<double>>, double>);
   
   Class rb_cCvKeyPoint = define_class_under<cv::KeyPoint>(rb_mCv, "KeyPoint").
@@ -384,14 +388,37 @@ void Init_Types()
   Class rb_cCvDataTypeMoments = define_class_under<cv::DataType<cv::Moments>>(rb_mCv, "DataTypeMoments").
     define_constructor(Constructor<cv::DataType<cv::Moments>>());
   
+  rb_cCvDataTypeMoments.define_constant("Generic_type", (int)cv::DataType<cv::Moments>::generic_type);
+  rb_cCvDataTypeMoments.define_constant("Channels", (int)cv::DataType<cv::Moments>::channels);
+  rb_cCvDataTypeMoments.define_constant("Fmt", (int)cv::DataType<cv::Moments>::fmt);
   
   Class rb_cCvTraitsDepthMoments = define_class_under<cv::traits::Depth<cv::Moments>>(rb_mCvTraits, "DepthMoments").
     define_constructor(Constructor<cv::traits::Depth<cv::Moments>>());
   
+  rb_cCvTraitsDepthMoments.define_constant("Value", (int)cv::traits::Depth<cv::Moments>::value);
   
   Class rb_cCvTraitsTypeMoments = define_class_under<cv::traits::Type<cv::Moments>>(rb_mCvTraits, "TypeMoments").
     define_constructor(Constructor<cv::traits::Type<cv::Moments>>());
   
+  rb_cCvTraitsTypeMoments.define_constant("Value", (int)cv::traits::Type<cv::Moments>::value);
+  
+  rb_mCv.define_module_function<int(*)(const cv::Point_<int>&)>("norm_l2_sqr", &cv::normL2Sqr,
+    Arg("pt"));
+  
+  rb_mCv.define_module_function<int64(*)(const cv::Point_<long long>&)>("norm_l2_sqr", &cv::normL2Sqr,
+    Arg("pt"));
+  
+  rb_mCv.define_module_function<float(*)(const cv::Point_<float>&)>("norm_l2_sqr", &cv::normL2Sqr,
+    Arg("pt"));
+  
+  rb_mCv.define_module_function<double(*)(const cv::Point_<int>&)>("norm_l2_sqr", &cv::normL2Sqr,
+    Arg("pt"));
+  
+  rb_mCv.define_module_function<double(*)(const cv::Point_<float>&)>("norm_l2_sqr", &cv::normL2Sqr,
+    Arg("pt"));
+  
+  rb_mCv.define_module_function<double(*)(const cv::Point_<double>&)>("norm_l2_sqr", &cv::normL2Sqr,
+    Arg("pt"));
   
   rb_mCv.define_module_function<double(*)(const cv::Rect2d&, const cv::Rect2d&)>("rectangle_intersection_area", &cv::rectangleIntersectionArea,
     Arg("a"), Arg("b"));

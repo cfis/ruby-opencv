@@ -12,7 +12,9 @@ inline void Quat_builder(Data_Type_T& klass)
 template<typename Data_Type_T, typename _Tp>
 inline void Quat_builder(Data_Type_T& klass)
 {
-  klass.define_constructor(Constructor<cv::Quat::Quat<_Tp>>()).
+  klass.define_constant("CV_QUAT_EPS", cv::Quat<_Tp>::CV_QUAT_EPS).
+    define_constant("CV_QUAT_CONVERT_THRESHOLD", cv::Quat<_Tp>::CV_QUAT_CONVERT_THRESHOLD).
+    define_constructor(Constructor<cv::Quat::Quat<_Tp>>()).
     define_constructor(Constructor<cv::Quat::Quat<_Tp>, const cv::Vec<_Tp, 4>&>(),
       Arg("coeff") = 4).
     define_constructor(Constructor<cv::Quat::Quat<_Tp>, _Tp, _Tp, _Tp, _Tp>(),

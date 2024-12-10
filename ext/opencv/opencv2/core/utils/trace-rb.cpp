@@ -9,6 +9,7 @@ using namespace Rice;
 void Init_Trace()
 {
   Class(rb_cObject).define_constant("__OPENCV_TRACE", __OPENCV_TRACE);
+  
   Module rb_mCv = define_module("Cv");
   
   Module rb_mCvUtils = define_module_under(rb_mCv, "Utils");

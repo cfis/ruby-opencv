@@ -64,8 +64,8 @@ void Init_Persistence()
       Arg("filename")).
     define_method<int(cv::FileStorage::*)() const>("get_format", &cv::FileStorage::getFormat).
     define_attr("state", &cv::FileStorage::state).
-    define_attr("elname", &cv::FileStorage::elname);
-    //define_attr("p", &cv::FileStorage::p);
+    define_attr("elname", &cv::FileStorage::elname).
+    define_attr("p", &cv::FileStorage::p);
   
   
   Enum<cv::FileStorage::Mode> rb_cCvFileStorageMode = define_enum_under<cv::FileStorage::Mode>("Mode", rb_cCvFileStorage).
@@ -156,6 +156,19 @@ void Init_Persistence()
     define_attr("block_idx", &cv::FileNode::blockIdx).
     define_attr("ofs", &cv::FileNode::ofs);
   
+  rb_cCvFileNode.define_constant("NONE", (int)cv::FileNode::NONE);
+  rb_cCvFileNode.define_constant("INT", (int)cv::FileNode::INT);
+  rb_cCvFileNode.define_constant("REAL", (int)cv::FileNode::REAL);
+  rb_cCvFileNode.define_constant("FLOAT", (int)cv::FileNode::FLOAT);
+  rb_cCvFileNode.define_constant("STR", (int)cv::FileNode::STR);
+  rb_cCvFileNode.define_constant("STRING", (int)cv::FileNode::STRING);
+  rb_cCvFileNode.define_constant("SEQ", (int)cv::FileNode::SEQ);
+  rb_cCvFileNode.define_constant("MAP", (int)cv::FileNode::MAP);
+  rb_cCvFileNode.define_constant("TYPE_MASK", (int)cv::FileNode::TYPE_MASK);
+  rb_cCvFileNode.define_constant("FLOW", (int)cv::FileNode::FLOW);
+  rb_cCvFileNode.define_constant("UNIFORM", (int)cv::FileNode::UNIFORM);
+  rb_cCvFileNode.define_constant("EMPTY", (int)cv::FileNode::EMPTY);
+  rb_cCvFileNode.define_constant("NAMED", (int)cv::FileNode::NAMED);
   
   Class rb_cCvFileNodeIterator = define_class_under<cv::FileNodeIterator>(rb_mCv, "FileNodeIterator").
     define_constructor(Constructor<cv::FileNodeIterator>()).
@@ -243,11 +256,71 @@ void Init_Persistence()
   rb_mCv.define_module_function<void(*)(const cv::FileNode&, cv::DMatch&, const cv::DMatch&)>("read", &cv::read,
     Arg("node"), Arg("value"), Arg("default_value"));
   
+  rb_mCv.define_module_function<void(*)(const cv::FileNode&, cv::Range&, const cv::Range&)>("read", &cv::read,
+    Arg("node"), Arg("value"), Arg("default_value"));
+  
   Module rb_mCvInternal = define_module_under(rb_mCv, "Internal");
   
   Class rb_cCvInternalWriteStructContext = define_class_under<cv::internal::WriteStructContext>(rb_mCvInternal, "WriteStructContext").
     define_constructor(Constructor<cv::internal::WriteStructContext, cv::FileStorage&, const cv::String&, int, const cv::String&>(),
       Arg("_fs"), Arg("name"), Arg("flags"), Arg("type_name"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const int&)>("write", &cv::write,
+    Arg("fs"), Arg("value"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const float&)>("write", &cv::write,
+    Arg("fs"), Arg("value"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const double&)>("write", &cv::write,
+    Arg("fs"), Arg("value"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const cv::String&)>("write", &cv::write,
+    Arg("fs"), Arg("value"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const cv::Range&)>("write", &cv::write,
+    Arg("fs"), Arg("r"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const cv::String&, const cv::Range&)>("write", &cv::write,
+    Arg("fs"), Arg("name"), Arg("r"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const cv::String&, const cv::KeyPoint&)>("write", &cv::write,
+    Arg("fs"), Arg("name"), Arg("kpt"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const cv::String&, const cv::DMatch&)>("write", &cv::write,
+    Arg("fs"), Arg("name"), Arg("m"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const cv::KeyPoint&)>("write", &cv::write,
+    Arg("fs"), Arg("kpt"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const cv::DMatch&)>("write", &cv::write,
+    Arg("fs"), Arg("m"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const std::vector<cv::KeyPoint>&)>("write", &cv::write,
+    Arg("fs"), Arg("vec"));
+  
+  rb_mCv.define_module_function<void(*)(cv::FileStorage&, const std::vector<cv::DMatch>&)>("write", &cv::write,
+    Arg("fs"), Arg("vec"));
+  
+  rb_mCv.define_module_function<void(*)(const cv::FileNode&, bool&, bool)>("read", &cv::read,
+    Arg("node"), Arg("value"), Arg("default_value"));
+  
+  rb_mCv.define_module_function<void(*)(const cv::FileNode&, uchar&, uchar)>("read", &cv::read,
+    Arg("node"), Arg("value"), Arg("default_value"));
+  
+  //rb_mCv.define_module_function<void(*)(const cv::FileNode&, schar&, schar)>("read", &cv::read,
+   // Arg("node"), Arg("value"), Arg("default_value"));
+  
+  rb_mCv.define_module_function<void(*)(const cv::FileNode&, ushort&, ushort)>("read", &cv::read,
+    Arg("node"), Arg("value"), Arg("default_value"));
+  
+  rb_mCv.define_module_function<void(*)(const cv::FileNode&, short&, short)>("read", &cv::read,
+    Arg("node"), Arg("value"), Arg("default_value"));
+  
+  rb_mCv.define_module_function<void(*)(const cv::FileNode&, std::vector<cv::KeyPoint>&, const std::vector<cv::KeyPoint>&)>("read", &cv::read,
+    Arg("node"), Arg("vec"), Arg("default_value"));
+  
+  rb_mCv.define_module_function<void(*)(const cv::FileNode&, std::vector<cv::DMatch>&, const std::vector<cv::DMatch>&)>("read", &cv::read,
+    Arg("node"), Arg("vec"), Arg("default_value"));
   
   rb_cCvFileNode.define_method(">>", [](const cv::FileNode& self, cv::KeyPoint& other) -> void
   {

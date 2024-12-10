@@ -240,7 +240,8 @@ inline void IsUnaryFunction_builder(Data_Type_T& klass)
   klass.Class rb_cCvCudaDeviceIsUnaryFunctionNo = define_class<cv::cuda::device::IsUnaryFunction::No>("No").
       define_constructor(Constructor<cv::cuda::device::IsUnaryFunction::No>());.
     template define_singleton_function<cv::cuda::device::IsUnaryFunction<F>::No(*)()>("check", &cv::cuda::device::IsUnaryFunction<F>::check).
-    template define_singleton_function<F(*)()>("make_f", &cv::cuda::device::IsUnaryFunction<F>::makeF);
+    template define_singleton_function<F(*)()>("make_f", &cv::cuda::device::IsUnaryFunction<F>::makeF).
+    define_constant("Value", (int)cv::cuda::device::IsUnaryFunction<F>::value);
 };
 
 template<typename Data_Type_T, typename F>
@@ -249,27 +250,32 @@ inline void IsBinaryFunction_builder(Data_Type_T& klass)
   klass.Class rb_cCvCudaDeviceIsBinaryFunctionNo = define_class<cv::cuda::device::IsBinaryFunction::No>("No").
       define_constructor(Constructor<cv::cuda::device::IsBinaryFunction::No>());.
     template define_singleton_function<cv::cuda::device::IsBinaryFunction<F>::No(*)()>("check", &cv::cuda::device::IsBinaryFunction<F>::check).
-    template define_singleton_function<F(*)()>("make_f", &cv::cuda::device::IsBinaryFunction<F>::makeF);
+    template define_singleton_function<F(*)()>("make_f", &cv::cuda::device::IsBinaryFunction<F>::makeF).
+    define_constant("Value", (int)cv::cuda::device::IsBinaryFunction<F>::value);
 };
 
 template<typename Data_Type_T, size_t src_elem_size, size_t dst_elem_size>
 inline void UnOpShift_builder(Data_Type_T& klass)
 {
+  klass.define_constant("Shift", (int)cv::cuda::device::functional_detail::UnOpShift<src_elem_size, dst_elem_size>::shift);
 };
 
 template<typename Data_Type_T, typename T, typename D>
 inline void DefaultUnaryShift_builder(Data_Type_T& klass)
 {
+  klass.define_constant("Shift", (int)cv::cuda::device::functional_detail::DefaultUnaryShift<T, D>::shift);
 };
 
 template<typename Data_Type_T, size_t src_elem_size1, size_t src_elem_size2, size_t dst_elem_size>
 inline void BinOpShift_builder(Data_Type_T& klass)
 {
+  klass.define_constant("Shift", (int)cv::cuda::device::functional_detail::BinOpShift<src_elem_size1, src_elem_size2, dst_elem_size>::shift);
 };
 
 template<typename Data_Type_T, typename T1, typename T2, typename D>
 inline void DefaultBinaryShift_builder(Data_Type_T& klass)
 {
+  klass.define_constant("Shift", (int)cv::cuda::device::functional_detail::DefaultBinaryShift<T1, T2, D>::shift);
 };
 
 template<typename Data_Type_T, typename Func, bool unary>
@@ -280,11 +286,17 @@ inline void ShiftDispatcher_builder(Data_Type_T& klass)
 template<typename Data_Type_T, typename Func>
 inline void DefaultTransformShift_builder(Data_Type_T& klass)
 {
+  klass.define_constant("Shift", (int)cv::cuda::device::DefaultTransformShift<Func>::shift);
 };
 
 template<typename Data_Type_T, typename Func>
 inline void DefaultTransformFunctorTraits_builder(Data_Type_T& klass)
 {
+  klass.define_constant("Simple_block_dim_x", (int)cv::cuda::device::DefaultTransformFunctorTraits<Func>::simple_block_dim_x).
+    define_constant("Simple_block_dim_y", (int)cv::cuda::device::DefaultTransformFunctorTraits<Func>::simple_block_dim_y).
+    define_constant("Smart_block_dim_x", (int)cv::cuda::device::DefaultTransformFunctorTraits<Func>::smart_block_dim_x).
+    define_constant("Smart_block_dim_y", (int)cv::cuda::device::DefaultTransformFunctorTraits<Func>::smart_block_dim_y).
+    define_constant("Smart_shift", (int)cv::cuda::device::DefaultTransformFunctorTraits<Func>::smart_shift);
 };
 
 template<typename Data_Type_T, typename Func>

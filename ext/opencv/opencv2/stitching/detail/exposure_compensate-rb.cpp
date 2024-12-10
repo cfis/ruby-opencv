@@ -29,6 +29,11 @@ void Init_ExposureCompensate()
       Arg("b")).
     define_method<bool(cv::detail::ExposureCompensator::*)()>("get_update_gain?", &cv::detail::ExposureCompensator::getUpdateGain);
   
+  rb_cCvDetailExposureCompensator.define_constant("NO", cv::detail::ExposureCompensator::NO);
+  rb_cCvDetailExposureCompensator.define_constant("GAIN", cv::detail::ExposureCompensator::GAIN);
+  rb_cCvDetailExposureCompensator.define_constant("GAIN_BLOCKS", cv::detail::ExposureCompensator::GAIN_BLOCKS);
+  rb_cCvDetailExposureCompensator.define_constant("CHANNELS", cv::detail::ExposureCompensator::CHANNELS);
+  rb_cCvDetailExposureCompensator.define_constant("CHANNELS_BLOCKS", cv::detail::ExposureCompensator::CHANNELS_BLOCKS);
   
   Class rb_cCvDetailNoExposureCompensator = define_class_under<cv::detail::NoExposureCompensator, cv::detail::ExposureCompensator>(rb_mCvDetail, "NoExposureCompensator").
     define_constructor(Constructor<cv::detail::NoExposureCompensator>()).

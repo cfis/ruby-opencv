@@ -7,15 +7,20 @@ using namespace Rice;
 template<typename Data_Type_T, typename T>
 inline void VTraits_builder(Data_Type_T& klass)
 {
-  klass.template define_singleton_function<int(*)()>("vlanes", &cv::VTraits<T>::vlanes);
+  klass.template define_singleton_function<int(*)()>("vlanes", &cv::VTraits<T>::vlanes).
+    define_constant("Max_nlanes", (int)cv::VTraits<T>::max_nlanes).
+    define_constant("Nlanes", (int)cv::VTraits<T>::nlanes);
 };
 
 
 void Init_IntrinNeon()
 {
   Class(rb_cObject).define_constant("CV_SIMD128", CV_SIMD128);
+  
   Class(rb_cObject).define_constant("CV_SIMD128_64F", CV_SIMD128_64F);
+  
   Class(rb_cObject).define_constant("CV_NEON_AARCH64", CV_NEON_AARCH64);
+  
   Module rb_mCv = define_module("Cv");
   
   Class rb_cCvVUint8x16 = define_class_under<cv::v_uint8x16>(rb_mCv, "VUint8x16").
@@ -221,6 +226,18 @@ void Init_IntrinNeon()
   
   rb_mCv.define_module_function<cv::v_float32x4(*)(cv::v_float32x4)>("v_abs", &cv::v_abs,
     Arg("x"));
+  
+  rb_mCv.define_module_function<cv::v_uint64x2(*)(const cv::v_uint64x2&, const cv::v_uint64x2&)>("v_eq", &cv::v_eq,
+    Arg("a"), Arg("b"));
+  
+  rb_mCv.define_module_function<cv::v_uint64x2(*)(const cv::v_uint64x2&, const cv::v_uint64x2&)>("v_ne", &cv::v_ne,
+    Arg("a"), Arg("b"));
+  
+  rb_mCv.define_module_function<cv::v_int64x2(*)(const cv::v_int64x2&, const cv::v_int64x2&)>("v_eq", &cv::v_eq,
+    Arg("a"), Arg("b"));
+  
+  rb_mCv.define_module_function<cv::v_int64x2(*)(const cv::v_int64x2&, const cv::v_int64x2&)>("v_ne", &cv::v_ne,
+    Arg("a"), Arg("b"));
   
   rb_mCv.define_module_function<cv::v_float32x4(*)(const cv::v_float32x4&)>("v_not_nan", &cv::v_not_nan,
     Arg("a"));

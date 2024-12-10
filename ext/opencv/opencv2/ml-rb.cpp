@@ -253,7 +253,12 @@ void Init_Ml()
     define_value("COV_MAT_GENERIC", cv::ml::EM::Types::COV_MAT_GENERIC).
     define_value("COV_MAT_DEFAULT", cv::ml::EM::Types::COV_MAT_DEFAULT);
   
+  rb_cCvMlEM.define_constant("DEFAULT_NCLUSTERS", cv::ml::EM::DEFAULT_NCLUSTERS);
+  rb_cCvMlEM.define_constant("DEFAULT_MAX_ITERS", cv::ml::EM::DEFAULT_MAX_ITERS);
   
+  rb_cCvMlEM.define_constant("START_E_STEP", cv::ml::EM::START_E_STEP);
+  rb_cCvMlEM.define_constant("START_M_STEP", cv::ml::EM::START_M_STEP);
+  rb_cCvMlEM.define_constant("START_AUTO_STEP", cv::ml::EM::START_AUTO_STEP);
   
   Class rb_cCvMlDTrees = define_class_under<cv::ml::DTrees, cv::ml::StatModel>(rb_mCvMl, "DTrees").
     define_method<int(cv::ml::DTrees::*)() const>("get_max_categories", &cv::ml::DTrees::getMaxCategories).

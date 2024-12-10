@@ -41,5 +41,8 @@ void Init_ruby_opencv()
       // Top level
       Init_Core();
       Init_Imgcodecs();
+
+      // Validate types
+      Rice::detail::Registries::instance.types.validateTypes();
     });
 }

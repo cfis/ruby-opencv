@@ -10,6 +10,8 @@ void Init_IntrinSseEm()
 {
   Module rb_mCv = define_module("Cv");
   
+  rb_mCv.define_singleton_attr("M128i", &cv::__m128i);
+  
   rb_mCv.define_module_function<int(*)(const int&, const int&, const int&)>("_v128_blendv_epi8", &cv::_v128_blendv_epi8,
     Arg("a"), Arg("b"), Arg("mask"));
   

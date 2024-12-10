@@ -36,6 +36,7 @@ inline void WarpOptimized_builder(Data_Type_T& klass)
 template<typename Data_Type_T, unsigned int N>
 inline void GenericOptimized32_builder(Data_Type_T& klass)
 {
+  klass.define_constant("M", (int)cv::cuda::device::reduce_detail::GenericOptimized32<N>::M);
 };
 
 template<typename Data_Type_T, bool val, typename T1, typename T2>
@@ -46,6 +47,7 @@ inline void StaticIf_builder(Data_Type_T& klass)
 template<typename Data_Type_T, unsigned int N>
 inline void IsPowerOf2_builder(Data_Type_T& klass)
 {
+  klass.define_constant("Value", (int)cv::cuda::device::reduce_detail::IsPowerOf2<N>::value);
 };
 
 template<typename Data_Type_T, unsigned int N>

@@ -9,7 +9,9 @@ using namespace Rice;
 void Init_IntrinRvv071()
 {
   Class(rb_cObject).define_constant("CV_SIMD128", CV_SIMD128);
+  
   Class(rb_cObject).define_constant("CV_SIMD128_64F", CV_SIMD128_64F);
+  
   Module rb_mCv = define_module("Cv");
   
   Class rb_cCvVUint8x16 = define_class_under<cv::v_uint8x16>(rb_mCv, "VUint8x16").
@@ -21,6 +23,7 @@ void Init_IntrinRvv071()
     define_method<uchar(cv::v_uint8x16::*)() const>("get0", &cv::v_uint8x16::get0).
     define_attr("val", &cv::v_uint8x16::val);
   
+  rb_cCvVUint8x16.define_constant("Nlanes", cv::v_uint8x16::nlanes);
   
   Class rb_cCvVInt8x16 = define_class_under<cv::v_int8x16>(rb_mCv, "VInt8x16").
     define_constructor(Constructor<cv::v_int8x16>()).
@@ -31,6 +34,7 @@ void Init_IntrinRvv071()
     define_method<schar(cv::v_int8x16::*)() const>("get0", &cv::v_int8x16::get0).
     define_attr("val", &cv::v_int8x16::val);
   
+  rb_cCvVInt8x16.define_constant("Nlanes", cv::v_int8x16::nlanes);
   
   Class rb_cCvVUint16x8 = define_class_under<cv::v_uint16x8>(rb_mCv, "VUint16x8").
     define_constructor(Constructor<cv::v_uint16x8>()).
@@ -41,6 +45,7 @@ void Init_IntrinRvv071()
     define_method<ushort(cv::v_uint16x8::*)() const>("get0", &cv::v_uint16x8::get0).
     define_attr("val", &cv::v_uint16x8::val);
   
+  rb_cCvVUint16x8.define_constant("Nlanes", cv::v_uint16x8::nlanes);
   
   Class rb_cCvVInt16x8 = define_class_under<cv::v_int16x8>(rb_mCv, "VInt16x8").
     define_constructor(Constructor<cv::v_int16x8>()).
@@ -51,6 +56,7 @@ void Init_IntrinRvv071()
     define_method<short(cv::v_int16x8::*)() const>("get0", &cv::v_int16x8::get0).
     define_attr("val", &cv::v_int16x8::val);
   
+  rb_cCvVInt16x8.define_constant("Nlanes", cv::v_int16x8::nlanes);
   
   Class rb_cCvVUint32x4 = define_class_under<cv::v_uint32x4>(rb_mCv, "VUint32x4").
     define_constructor(Constructor<cv::v_uint32x4>()).
@@ -61,6 +67,7 @@ void Init_IntrinRvv071()
     define_method<unsigned int(cv::v_uint32x4::*)() const>("get0", &cv::v_uint32x4::get0).
     define_attr("val", &cv::v_uint32x4::val);
   
+  rb_cCvVUint32x4.define_constant("Nlanes", cv::v_uint32x4::nlanes);
   
   Class rb_cCvVInt32x4 = define_class_under<cv::v_int32x4>(rb_mCv, "VInt32x4").
     define_constructor(Constructor<cv::v_int32x4>()).
@@ -71,6 +78,7 @@ void Init_IntrinRvv071()
     define_method<int(cv::v_int32x4::*)() const>("get0", &cv::v_int32x4::get0).
     define_attr("val", &cv::v_int32x4::val);
   
+  rb_cCvVInt32x4.define_constant("Nlanes", cv::v_int32x4::nlanes);
   
   Class rb_cCvVFloat32x4 = define_class_under<cv::v_float32x4>(rb_mCv, "VFloat32x4").
     define_constructor(Constructor<cv::v_float32x4>()).
@@ -81,6 +89,7 @@ void Init_IntrinRvv071()
     define_method<float(cv::v_float32x4::*)() const>("get0", &cv::v_float32x4::get0).
     define_attr("val", &cv::v_float32x4::val);
   
+  rb_cCvVFloat32x4.define_constant("Nlanes", cv::v_float32x4::nlanes);
   
   Class rb_cCvVUint64x2 = define_class_under<cv::v_uint64x2>(rb_mCv, "VUint64x2").
     define_constructor(Constructor<cv::v_uint64x2>()).
@@ -91,6 +100,7 @@ void Init_IntrinRvv071()
     define_method<uint64(cv::v_uint64x2::*)() const>("get0", &cv::v_uint64x2::get0).
     define_attr("val", &cv::v_uint64x2::val);
   
+  rb_cCvVUint64x2.define_constant("Nlanes", cv::v_uint64x2::nlanes);
   
   Class rb_cCvVInt64x2 = define_class_under<cv::v_int64x2>(rb_mCv, "VInt64x2").
     define_constructor(Constructor<cv::v_int64x2>()).
@@ -101,6 +111,7 @@ void Init_IntrinRvv071()
     define_method<int64(cv::v_int64x2::*)() const>("get0", &cv::v_int64x2::get0).
     define_attr("val", &cv::v_int64x2::val);
   
+  rb_cCvVInt64x2.define_constant("Nlanes", cv::v_int64x2::nlanes);
   
   Class rb_cCvVFloat64x2 = define_class_under<cv::v_float64x2>(rb_mCv, "VFloat64x2").
     define_constructor(Constructor<cv::v_float64x2>()).
@@ -111,6 +122,7 @@ void Init_IntrinRvv071()
     define_method<double(cv::v_float64x2::*)() const>("get0", &cv::v_float64x2::get0).
     define_attr("val", &cv::v_float64x2::val);
   
+  rb_cCvVFloat64x2.define_constant("Nlanes", cv::v_float64x2::nlanes);
   
   rb_mCv.define_module_function<cv::v_uint8x16(*)(const cv::v_uint8x16&)>("v_reinterpret_as_u8", &cv::v_reinterpret_as_u8,
     Arg("v"));
@@ -804,6 +816,8 @@ void Init_IntrinRvv071()
   
   rb_mCv.define_module_function<cv::v_uint8x16(*)(const cv::v_uint64x2&, const cv::v_uint64x2&, const cv::v_uint64x2&, const cv::v_uint64x2&, const cv::v_uint64x2&, const cv::v_uint64x2&, const cv::v_uint64x2&, const cv::v_uint64x2&)>("v_pack_b", &cv::v_pack_b,
     Arg("a"), Arg("b"), Arg("c"), Arg("d"), Arg("e"), Arg("f"), Arg("g"), Arg("h"));
+  
+  rb_mCv.define_singleton_attr("PopCountTable", &cv::popCountTable);
   
   rb_mCv.define_module_function<int(*)(int)>("vcnt_u8", &cv::vcnt_u8,
     Arg("val"));

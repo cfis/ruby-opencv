@@ -1,7 +1,5 @@
 #include <sstream>
 #include <opencv2/core.hpp>
-
-#include "core/types-rb.hpp"
 #include "core/cvstd_wrapper-rb.hpp"
 #include "core-rb.hpp"
 
@@ -504,7 +502,7 @@ void Init_Core()
     define_constructor(Constructor<cv::RNG, uint64>(),
       Arg("state")).
     define_method<unsigned int(cv::RNG::*)()>("next", &cv::RNG::next).
-    /*define_method("to_unsigned char", [](const cv::RNG& self) -> uchar
+   /* define_method("to_unsigned char", [](const cv::RNG& self) -> uchar
     {
       return self;
     }).
@@ -553,6 +551,8 @@ void Init_Core()
     define_method<bool(cv::RNG::*)(const cv::RNG&) const>("==", &cv::RNG::operator==,
       Arg("other"));
   
+  rb_cCvRNG.define_constant("UNIFORM", (int)cv::RNG::UNIFORM);
+  rb_cCvRNG.define_constant("NORMAL", (int)cv::RNG::NORMAL);
   
   Class rb_cCvRNGMT19937 = define_class_under<cv::RNG_MT19937>(rb_mCv, "RNG_MT19937").
     define_constructor(Constructor<cv::RNG_MT19937>()).
@@ -648,38 +648,51 @@ void Init_Core()
     define_value("SCALAR", cv::Param::SCALAR);
   
   Class rb_cCvParamTypeBool = define_class_under<cv::ParamType<bool>>(rb_mCv, "ParamTypeBool").
-    define_constructor(Constructor<cv::ParamType<bool>>());
+    define_constructor(Constructor<cv::ParamType<bool>>()).
+    define_constant("Type", cv::ParamType<bool>::type);
   
   Class rb_cCvParamTypeInt = define_class_under<cv::ParamType<int>>(rb_mCv, "ParamTypeInt").
-    define_constructor(Constructor<cv::ParamType<int>>());
+    define_constructor(Constructor<cv::ParamType<int>>()).
+    define_constant("Type", cv::ParamType<int>::type);
   
   Class rb_cCvParamTypeDouble = define_class_under<cv::ParamType<double>>(rb_mCv, "ParamTypeDouble").
-    define_constructor(Constructor<cv::ParamType<double>>());
+    define_constructor(Constructor<cv::ParamType<double>>()).
+    define_constant("Type", cv::ParamType<double>::type);
   
   Class rb_cCvParamTypeString = define_class_under<cv::ParamType<cv::String>>(rb_mCv, "ParamTypeString").
-    define_constructor(Constructor<cv::ParamType<cv::String>>());
+    define_constructor(Constructor<cv::ParamType<cv::String>>()).
+    define_constant("Type", cv::ParamType<cv::String>::type);
   
   Class rb_cCvParamTypeMat = define_class_under<cv::ParamType<cv::Mat>>(rb_mCv, "ParamTypeMat").
-    define_constructor(Constructor<cv::ParamType<cv::Mat>>());
+    define_constructor(Constructor<cv::ParamType<cv::Mat>>()).
+    define_constant("Type", cv::ParamType<cv::Mat>::type);
   
   Class rb_cCvParamTypeStdVectorMat = define_class_under<cv::ParamType<std::vector<cv::Mat>>>(rb_mCv, "VectorMat").
-    define_constructor(Constructor<cv::ParamType<std::vector<cv::Mat>>>());
+    define_constructor(Constructor<cv::ParamType<std::vector<cv::Mat>>>()).
+    define_constant("Type", cv::ParamType<std::vector<cv::Mat>>::type);
   
   Class rb_cCvParamTypeAlgorithm = define_class_under<cv::ParamType<cv::Algorithm>>(rb_mCv, "ParamTypeAlgorithm").
-    define_constructor(Constructor<cv::ParamType<cv::Algorithm>>());
+    define_constructor(Constructor<cv::ParamType<cv::Algorithm>>()).
+    define_constant("Type", cv::ParamType<cv::Algorithm>::type);
   
   Class rb_cCvParamTypeFloat = define_class_under<cv::ParamType<float>>(rb_mCv, "ParamTypeFloat").
-    define_constructor(Constructor<cv::ParamType<float>>());
+    define_constructor(Constructor<cv::ParamType<float>>()).
+    define_constant("Type", cv::ParamType<float>::type);
   
   Class rb_cCvParamTypeUnsignedInt = define_class_under<cv::ParamType<unsigned int>>(rb_mCv, "ParamTypeUnsignedInt").
-    define_constructor(Constructor<cv::ParamType<unsigned int>>());
+    define_constructor(Constructor<cv::ParamType<unsigned int>>()).
+    define_constant("Type", cv::ParamType<unsigned int>::type);
   
   Class rb_cCvParamTypeUint64 = define_class_under<cv::ParamType<uint64>>(rb_mCv, "ParamTypeUint64").
-    define_constructor(Constructor<cv::ParamType<uint64>>());
+    define_constructor(Constructor<cv::ParamType<uint64>>()).
+    define_constant("Type", cv::ParamType<uint64>::type);
   
   Class rb_cCvParamTypeUchar = define_class_under<cv::ParamType<uchar>>(rb_mCv, "ParamTypeUchar").
-    define_constructor(Constructor<cv::ParamType<uchar>>());
+    define_constructor(Constructor<cv::ParamType<uchar>>()).
+    define_constant("Type", cv::ParamType<uchar>::type);
   
   Class rb_cCvParamTypeScalar = define_class_under<cv::ParamType<cv::Scalar>>(rb_mCv, "ParamTypeScalar").
-    define_constructor(Constructor<cv::ParamType<cv::Scalar>>());
+    define_constructor(Constructor<cv::ParamType<cv::Scalar>>()).
+    define_constant("Type", cv::ParamType<cv::Scalar>::type);
+
 }

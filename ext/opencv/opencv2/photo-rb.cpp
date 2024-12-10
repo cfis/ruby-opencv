@@ -10,6 +10,9 @@ void Init_Photo()
 {
   Module rb_mCv = define_module("Cv");
   
+  rb_mCv.define_constant("INPAINT_NS", cv::cv::INPAINT_NS);
+  rb_mCv.define_constant("INPAINT_TELEA", cv::cv::INPAINT_TELEA);
+  
   rb_mCv.define_module_function<void(*)(cv::InputArray, cv::InputArray, cv::OutputArray, double, int)>("inpaint", &cv::inpaint,
     Arg("src"), Arg("inpaint_mask"), Arg("dst"), Arg("inpaint_radius"), Arg("flags"));
   
@@ -33,6 +36,8 @@ void Init_Photo()
   
   rb_mCv.define_module_function<void(*)(const std::vector<cv::Mat>&, cv::Mat&, double, int)>("denoise_tvl1", &cv::denoise_TVL1,
     Arg("observations"), Arg("result"), Arg("lambda") = 1.0, Arg("niters") = 30);
+  
+  rb_mCv.define_constant("LDR_SIZE", cv::cv::LDR_SIZE);
   
   Class rb_cCvTonemap = define_class_under<cv::Tonemap, cv::Algorithm>(rb_mCv, "Tonemap").
     define_method<void(cv::Tonemap::*)(cv::InputArray, cv::OutputArray)>("process", &cv::Tonemap::process,
@@ -179,6 +184,10 @@ void Init_Photo()
   rb_mCv.define_module_function<void(*)(cv::InputArray, cv::OutputArray, cv::OutputArray)>("decolor", &cv::decolor,
     Arg("src"), Arg("grayscale"), Arg("color_boost"));
   
+  rb_mCv.define_constant("NORMAL_CLONE", cv::cv::NORMAL_CLONE);
+  rb_mCv.define_constant("MIXED_CLONE", cv::cv::MIXED_CLONE);
+  rb_mCv.define_constant("MONOCHROME_TRANSFER", cv::cv::MONOCHROME_TRANSFER);
+  
   rb_mCv.define_module_function<void(*)(cv::InputArray, cv::InputArray, cv::InputArray, cv::Point, cv::OutputArray, int)>("seamless_clone", &cv::seamlessClone,
     Arg("src"), Arg("dst"), Arg("mask"), Arg("p"), Arg("blend"), Arg("flags"));
   
@@ -190,6 +199,9 @@ void Init_Photo()
   
   rb_mCv.define_module_function<void(*)(cv::InputArray, cv::InputArray, cv::OutputArray, float, float, int)>("texture_flattening", &cv::textureFlattening,
     Arg("src"), Arg("mask"), Arg("dst"), Arg("low_threshold") = 30, Arg("high_threshold") = 45, Arg("kernel_size") = 3);
+  
+  rb_mCv.define_constant("RECURS_FILTER", cv::cv::RECURS_FILTER);
+  rb_mCv.define_constant("NORMCONV_FILTER", cv::cv::NORMCONV_FILTER);
   
   rb_mCv.define_module_function<void(*)(cv::InputArray, cv::OutputArray, int, float, float)>("edge_preserving_filter", &cv::edgePreservingFilter,
     Arg("src"), Arg("dst"), Arg("flags") = 1, Arg("sigma_s") = 60, Arg("sigma_r") = 0.4f);

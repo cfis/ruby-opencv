@@ -9,7 +9,9 @@ using namespace Rice;
 void Init_IntrinVsx()
 {
   Class(rb_cObject).define_constant("CV_SIMD128", CV_SIMD128);
+  
   Class(rb_cObject).define_constant("CV_SIMD128_64F", CV_SIMD128_64F);
+  
   Module rb_mCv = define_module("Cv");
   
   Class rb_cCvVUint8x16 = define_class_under<cv::v_uint8x16>(rb_mCv, "VUint8x16").
@@ -24,6 +26,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_uint8x16(*)()>("zero", &cv::v_uint8x16::zero).
     define_method<uchar(cv::v_uint8x16::*)() const>("get0", &cv::v_uint8x16::get0);
   
+  rb_cCvVUint8x16.define_constant("Nlanes", cv::v_uint8x16::nlanes);
   
   Class rb_cCvVInt8x16 = define_class_under<cv::v_int8x16>(rb_mCv, "VInt8x16").
     define_attr("val", &cv::v_int8x16::val).
@@ -37,6 +40,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_int8x16(*)()>("zero", &cv::v_int8x16::zero).
     define_method<schar(cv::v_int8x16::*)() const>("get0", &cv::v_int8x16::get0);
   
+  rb_cCvVInt8x16.define_constant("Nlanes", cv::v_int8x16::nlanes);
   
   Class rb_cCvVUint16x8 = define_class_under<cv::v_uint16x8>(rb_mCv, "VUint16x8").
     define_attr("val", &cv::v_uint16x8::val).
@@ -50,6 +54,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_uint16x8(*)()>("zero", &cv::v_uint16x8::zero).
     define_method<ushort(cv::v_uint16x8::*)() const>("get0", &cv::v_uint16x8::get0);
   
+  rb_cCvVUint16x8.define_constant("Nlanes", cv::v_uint16x8::nlanes);
   
   Class rb_cCvVInt16x8 = define_class_under<cv::v_int16x8>(rb_mCv, "VInt16x8").
     define_attr("val", &cv::v_int16x8::val).
@@ -63,6 +68,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_int16x8(*)()>("zero", &cv::v_int16x8::zero).
     define_method<short(cv::v_int16x8::*)() const>("get0", &cv::v_int16x8::get0);
   
+  rb_cCvVInt16x8.define_constant("Nlanes", cv::v_int16x8::nlanes);
   
   Class rb_cCvVUint32x4 = define_class_under<cv::v_uint32x4>(rb_mCv, "VUint32x4").
     define_attr("val", &cv::v_uint32x4::val).
@@ -76,6 +82,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_uint32x4(*)()>("zero", &cv::v_uint32x4::zero).
     define_method<uint(cv::v_uint32x4::*)() const>("get0", &cv::v_uint32x4::get0);
   
+  rb_cCvVUint32x4.define_constant("Nlanes", cv::v_uint32x4::nlanes);
   
   Class rb_cCvVInt32x4 = define_class_under<cv::v_int32x4>(rb_mCv, "VInt32x4").
     define_attr("val", &cv::v_int32x4::val).
@@ -89,6 +96,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_int32x4(*)()>("zero", &cv::v_int32x4::zero).
     define_method<int(cv::v_int32x4::*)() const>("get0", &cv::v_int32x4::get0);
   
+  rb_cCvVInt32x4.define_constant("Nlanes", cv::v_int32x4::nlanes);
   
   Class rb_cCvVFloat32x4 = define_class_under<cv::v_float32x4>(rb_mCv, "VFloat32x4").
     define_attr("val", &cv::v_float32x4::val).
@@ -102,6 +110,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_float32x4(*)()>("zero", &cv::v_float32x4::zero).
     define_method<float(cv::v_float32x4::*)() const>("get0", &cv::v_float32x4::get0);
   
+  rb_cCvVFloat32x4.define_constant("Nlanes", cv::v_float32x4::nlanes);
   
   Class rb_cCvVUint64x2 = define_class_under<cv::v_uint64x2>(rb_mCv, "VUint64x2").
     define_attr("val", &cv::v_uint64x2::val).
@@ -115,6 +124,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_uint64x2(*)()>("zero", &cv::v_uint64x2::zero).
     define_method<uint64(cv::v_uint64x2::*)() const>("get0", &cv::v_uint64x2::get0);
   
+  rb_cCvVUint64x2.define_constant("Nlanes", cv::v_uint64x2::nlanes);
   
   Class rb_cCvVInt64x2 = define_class_under<cv::v_int64x2>(rb_mCv, "VInt64x2").
     define_attr("val", &cv::v_int64x2::val).
@@ -128,6 +138,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_int64x2(*)()>("zero", &cv::v_int64x2::zero).
     define_method<int64(cv::v_int64x2::*)() const>("get0", &cv::v_int64x2::get0);
   
+  rb_cCvVInt64x2.define_constant("Nlanes", cv::v_int64x2::nlanes);
   
   Class rb_cCvVFloat64x2 = define_class_under<cv::v_float64x2>(rb_mCv, "VFloat64x2").
     define_attr("val", &cv::v_float64x2::val).
@@ -141,6 +152,7 @@ void Init_IntrinVsx()
     define_singleton_function<cv::v_float64x2(*)()>("zero", &cv::v_float64x2::zero).
     define_method<double(cv::v_float64x2::*)() const>("get0", &cv::v_float64x2::get0);
   
+  rb_cCvVFloat64x2.define_constant("Nlanes", cv::v_float64x2::nlanes);
   
   rb_mCv.define_module_function<cv::v_uint32x4(*)(const uchar*)>("v_load_expand_q", &cv::v_load_expand_q,
     Arg("ptr"));

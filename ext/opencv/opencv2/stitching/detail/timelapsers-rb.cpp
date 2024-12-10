@@ -22,6 +22,8 @@ void Init_Timelapsers()
       Arg("img"), Arg("mask"), Arg("tl")).
     define_method<const cv::UMat&(cv::detail::Timelapser::*)()>("get_dst", &cv::detail::Timelapser::getDst);
   
+  rb_cCvDetailTimelapser.define_constant("AS_IS", cv::detail::Timelapser::AS_IS);
+  rb_cCvDetailTimelapser.define_constant("CROP", cv::detail::Timelapser::CROP);
   
   Class rb_cCvDetailTimelapserCrop = define_class_under<cv::detail::TimelapserCrop, cv::detail::Timelapser>(rb_mCvDetail, "TimelapserCrop").
     define_constructor(Constructor<cv::detail::TimelapserCrop>()).

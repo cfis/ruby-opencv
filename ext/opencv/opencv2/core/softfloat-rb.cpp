@@ -8,7 +8,8 @@ using namespace Rice;
 
 void Init_Softfloat()
 {
-  Class(rb_cObject).define_constant("softfloat_h", softfloat_h);
+  Class(rb_cObject).define_constant("Softfloat_h", softfloat_h);
+  
   Module rb_mCv = define_module("Cv");
   
   Class rb_cCvSoftfloat = define_class_under<cv::softfloat>(rb_mCv, "Softfloat").
@@ -210,6 +211,54 @@ void Init_Softfloat()
     Arg("a"));
   
   define_global_function<int(*)(const cv::softdouble&)>("cv_ceil", &cvCeil,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<uchar(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<uchar(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<schar(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<schar(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<ushort(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<ushort(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<short(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<short(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<int(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<int(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<int64_t(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<int64_t(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<unsigned int(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<unsigned int(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<uint64_t(*)(cv::softfloat)>("saturate_cast", &cv::saturate_cast,
+    Arg("a"));
+  
+  rb_mCv.define_module_function<uint64_t(*)(cv::softdouble)>("saturate_cast", &cv::saturate_cast,
     Arg("a"));
   
   rb_mCv.define_module_function<cv::softfloat(*)(const cv::softfloat&, const cv::softfloat&)>("min", &cv::min,

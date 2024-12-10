@@ -74,6 +74,9 @@ void Init_Instrumentation()
   rb_mCvInstr.define_module_function<void(*)(cv::instr::FLAGS)>("set_flags", &cv::instr::setFlags,
     Arg("mode_flags"));
   
+  rb_mCvInstr.define_module_function<void(*)(int)>("set_flags", &cv::instr::setFlags,
+    Arg("mode_flags"));
+  
   rb_mCvInstr.define_module_function<cv::instr::FLAGS(*)()>("get_flags", &cv::instr::getFlags);
 
 }

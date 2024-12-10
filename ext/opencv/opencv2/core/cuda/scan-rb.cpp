@@ -13,13 +13,17 @@ inline void WarpScan_builder(Data_Type_T& klass)
 template<typename Data_Type_T, ScanKind Kind, typename T, typename F>
 inline void WarpScanNoComp_builder(Data_Type_T& klass)
 {
-  klass.define_attr("__forceinline__", &cv::cuda::device::WarpScanNoComp<Kind, T, F>::__forceinline__);
+  klass.define_attr("__forceinline__", &cv::cuda::device::WarpScanNoComp<Kind, T, F>::__forceinline__).
+    define_constant("Warp_offset", cv::cuda::device::WarpScanNoComp<Kind, T, F>::warp_offset).
+    define_constant("Warp_log", cv::cuda::device::WarpScanNoComp<Kind, T, F>::warp_log).
+    define_constant("Warp_mask", cv::cuda::device::WarpScanNoComp<Kind, T, F>::warp_mask);
 };
 
 template<typename Data_Type_T, ScanKind Kind, typename T, typename Sc, typename F>
 inline void BlockScan_builder(Data_Type_T& klass)
 {
-  klass.define_attr("__forceinline__", &cv::cuda::device::BlockScan<Kind, T, Sc, F>::__forceinline__);
+  klass.define_attr("__forceinline__", &cv::cuda::device::BlockScan<Kind, T, Sc, F>::__forceinline__).
+    define_constant("Warp_mask", cv::cuda::device::BlockScan<Kind, T, Sc, F>::warp_mask);
 };
 
 

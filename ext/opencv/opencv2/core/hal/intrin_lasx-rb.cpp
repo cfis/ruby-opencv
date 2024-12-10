@@ -9,9 +9,14 @@ using namespace Rice;
 void Init_IntrinLasx()
 {
   Class(rb_cObject).define_constant("CV_SIMD256", CV_SIMD256);
+  
   Class(rb_cObject).define_constant("CV_SIMD256_64F", CV_SIMD256_64F);
+  
   Class(rb_cObject).define_constant("CV_SIMD256_FP16", CV_SIMD256_FP16);
+  
   Module rb_mCv = define_module("Cv");
+  
+  rb_mCv.define_singleton_attr("M256i", &cv::__m256i);
   
   rb_mCv.define_module_function<int(*)(char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char, char)>("_v256_set_b", &cv::_v256_set_b,
     Arg("v0"), Arg("v1"), Arg("v2"), Arg("v3"), Arg("v4"), Arg("v5"), Arg("v6"), Arg("v7"), Arg("v8"), Arg("v9"), Arg("v10"), Arg("v11"), Arg("v12"), Arg("v13"), Arg("v14"), Arg("v15"), Arg("v16"), Arg("v17"), Arg("v18"), Arg("v19"), Arg("v20"), Arg("v21"), Arg("v22"), Arg("v23"), Arg("v24"), Arg("v25"), Arg("v26"), Arg("v27"), Arg("v28"), Arg("v29"), Arg("v30"), Arg("v31"));
@@ -103,6 +108,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_uint8x32>()).
     define_method<int(cv::v_uint8x32::*)() const>("get0", &cv::v_uint8x32::get0);
   
+  rb_cCvVUint8x32.define_constant("Nlanes", cv::v_uint8x32::nlanes);
   
   Class rb_cCvVInt8x32 = define_class_under<cv::v_int8x32>(rb_mCv, "VInt8x32").
     define_attr("val", &cv::v_int8x32::val).
@@ -113,6 +119,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_int8x32>()).
     define_method<int(cv::v_int8x32::*)() const>("get0", &cv::v_int8x32::get0);
   
+  rb_cCvVInt8x32.define_constant("Nlanes", cv::v_int8x32::nlanes);
   
   Class rb_cCvVUint16x16 = define_class_under<cv::v_uint16x16>(rb_mCv, "VUint16x16").
     define_attr("val", &cv::v_uint16x16::val).
@@ -123,6 +130,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_uint16x16>()).
     define_method<int(cv::v_uint16x16::*)() const>("get0", &cv::v_uint16x16::get0);
   
+  rb_cCvVUint16x16.define_constant("Nlanes", cv::v_uint16x16::nlanes);
   
   Class rb_cCvVInt16x16 = define_class_under<cv::v_int16x16>(rb_mCv, "VInt16x16").
     define_attr("val", &cv::v_int16x16::val).
@@ -133,6 +141,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_int16x16>()).
     define_method<short(cv::v_int16x16::*)() const>("get0", &cv::v_int16x16::get0);
   
+  rb_cCvVInt16x16.define_constant("Nlanes", cv::v_int16x16::nlanes);
   
   Class rb_cCvVUint32x8 = define_class_under<cv::v_uint32x8>(rb_mCv, "VUint32x8").
     define_attr("val", &cv::v_uint32x8::val).
@@ -143,6 +152,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_uint32x8>()).
     define_method<unsigned int(cv::v_uint32x8::*)() const>("get0", &cv::v_uint32x8::get0);
   
+  rb_cCvVUint32x8.define_constant("Nlanes", cv::v_uint32x8::nlanes);
   
   Class rb_cCvVInt32x8 = define_class_under<cv::v_int32x8>(rb_mCv, "VInt32x8").
     define_attr("val", &cv::v_int32x8::val).
@@ -153,6 +163,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_int32x8>()).
     define_method<int(cv::v_int32x8::*)() const>("get0", &cv::v_int32x8::get0);
   
+  rb_cCvVInt32x8.define_constant("Nlanes", cv::v_int32x8::nlanes);
   
   Class rb_cCvVFloat32x8 = define_class_under<cv::v_float32x8>(rb_mCv, "VFloat32x8").
     define_attr("val", &cv::v_float32x8::val).
@@ -166,6 +177,7 @@ void Init_IntrinLasx()
     define_method<float(cv::v_float32x8::*)() const>("get0", &cv::v_float32x8::get0).
     define_method<int(cv::v_float32x8::*)() const>("get0toint", &cv::v_float32x8::get0toint);
   
+  rb_cCvVFloat32x8.define_constant("Nlanes", cv::v_float32x8::nlanes);
   
   Class rb_cCvVUint64x4 = define_class_under<cv::v_uint64x4>(rb_mCv, "VUint64x4").
     define_attr("val", &cv::v_uint64x4::val).
@@ -176,6 +188,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_uint64x4>()).
     define_method<int(cv::v_uint64x4::*)() const>("get0", &cv::v_uint64x4::get0);
   
+  rb_cCvVUint64x4.define_constant("Nlanes", cv::v_uint64x4::nlanes);
   
   Class rb_cCvVInt64x4 = define_class_under<cv::v_int64x4>(rb_mCv, "VInt64x4").
     define_attr("val", &cv::v_int64x4::val).
@@ -186,6 +199,7 @@ void Init_IntrinLasx()
     define_constructor(Constructor<cv::v_int64x4>()).
     define_method<int(cv::v_int64x4::*)() const>("get0", &cv::v_int64x4::get0);
   
+  rb_cCvVInt64x4.define_constant("Nlanes", cv::v_int64x4::nlanes);
   
   Class rb_cCvVFloat64x4 = define_class_under<cv::v_float64x4>(rb_mCv, "VFloat64x4").
     define_attr("val", &cv::v_float64x4::val).
@@ -199,6 +213,7 @@ void Init_IntrinLasx()
     define_method<double(cv::v_float64x4::*)() const>("get0", &cv::v_float64x4::get0).
     define_method<int(cv::v_float64x4::*)() const>("get0toint64", &cv::v_float64x4::get0toint64);
   
+  rb_cCvVFloat64x4.define_constant("Nlanes", cv::v_float64x4::nlanes);
   
   rb_mCv.define_module_function<int(*)(const int&)>("_lasx_256_castps_si256", &cv::_lasx_256_castps_si256,
     Arg("v"));

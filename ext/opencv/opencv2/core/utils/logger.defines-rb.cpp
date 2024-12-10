@@ -9,12 +9,19 @@ using namespace Rice;
 void Init_LoggerDefines()
 {
   Class(rb_cObject).define_constant("CV_LOG_LEVEL_SILENT", CV_LOG_LEVEL_SILENT);
+  
   Class(rb_cObject).define_constant("CV_LOG_LEVEL_FATAL", CV_LOG_LEVEL_FATAL);
+  
   Class(rb_cObject).define_constant("CV_LOG_LEVEL_ERROR", CV_LOG_LEVEL_ERROR);
+  
   Class(rb_cObject).define_constant("CV_LOG_LEVEL_WARN", CV_LOG_LEVEL_WARN);
+  
   Class(rb_cObject).define_constant("CV_LOG_LEVEL_INFO", CV_LOG_LEVEL_INFO);
+  
   Class(rb_cObject).define_constant("CV_LOG_LEVEL_DEBUG", CV_LOG_LEVEL_DEBUG);
+  
   Class(rb_cObject).define_constant("CV_LOG_LEVEL_VERBOSE", CV_LOG_LEVEL_VERBOSE);
+  
   Module rb_mCv = define_module("Cv");
   
   Module rb_mCvUtils = define_module_under(rb_mCv, "Utils");

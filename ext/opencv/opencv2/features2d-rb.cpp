@@ -1,5 +1,7 @@
 #include <sstream>
 #include <opencv2/features2d.hpp>
+
+#include "core/cvstd_wrapper-rb.hpp"
 #include "features2d-rb.hpp"
 
 using namespace Rice;
@@ -12,21 +14,24 @@ inline void Accumulator_builder(Data_Type_T& klass)
 template<typename Data_Type_T, typename T>
 inline void SL2_builder(Data_Type_T& klass)
 {
-  klass.template define_method<cv::SL2<T>::ResultType(cv::SL2<T>::*)(const T*, const T*, int) const>("()", &cv::SL2<T>::operator(),
+  klass.define_constant("NormType", cv::SL2<T>::normType).
+    template define_method<cv::SL2<T>::ResultType(cv::SL2<T>::*)(const T*, const T*, int) const>("()", &cv::SL2<T>::operator(),
       Arg("a"), Arg("b"), Arg("size"));
 };
 
 template<typename Data_Type_T, typename T>
 inline void L2_builder(Data_Type_T& klass)
 {
-  klass.template define_method<cv::L2<T>::ResultType(cv::L2<T>::*)(const T*, const T*, int) const>("()", &cv::L2<T>::operator(),
+  klass.define_constant("NormType", cv::L2<T>::normType).
+    template define_method<cv::L2<T>::ResultType(cv::L2<T>::*)(const T*, const T*, int) const>("()", &cv::L2<T>::operator(),
       Arg("a"), Arg("b"), Arg("size"));
 };
 
 template<typename Data_Type_T, typename T>
 inline void L1_builder(Data_Type_T& klass)
 {
-  klass.template define_method<cv::L1<T>::ResultType(cv::L1<T>::*)(const T*, const T*, int) const>("()", &cv::L1<T>::operator(),
+  klass.define_constant("NormType", cv::L1<T>::normType).
+    template define_method<cv::L1<T>::ResultType(cv::L1<T>::*)(const T*, const T*, int) const>("()", &cv::L1<T>::operator(),
       Arg("a"), Arg("b"), Arg("size"));
 };
 
@@ -132,7 +137,7 @@ void Init_Features2d()
     define_method<float(cv::BRISK::*)() const>("get_pattern_scale", &cv::BRISK::getPatternScale);
   
   Class rb_cCvORB = define_class_under<cv::ORB, cv::Feature2D>(rb_mCv, "ORB").
-    define_singleton_attr("KBytes", &ORB::kBytes).
+    define_constant("KBytes", cv::ORB::kBytes).
     define_singleton_function<cv::Ptr<cv::ORB>(*)(int, float, int, int, int, int, cv::ORB::ScoreType, int, int)>("create", &cv::ORB::create,
       Arg("nfeatures") = 500, Arg("scale_factor") = 1.2f, Arg("nlevels") = 8, Arg("edge_threshold") = 31, Arg("first_level") = 0, Arg("wta_k") = 2, Arg("score_type"), Arg("patch_size") = 31, Arg("fast_threshold") = 20).
     define_method<void(cv::ORB::*)(int)>("set_max_features", &cv::ORB::setMaxFeatures,
@@ -224,6 +229,9 @@ void Init_Features2d()
     define_value("TYPE_7_12", cv::FastFeatureDetector::DetectorType::TYPE_7_12).
     define_value("TYPE_9_16", cv::FastFeatureDetector::DetectorType::TYPE_9_16);
   
+  rb_cCvFastFeatureDetector.define_constant("THRESHOLD", cv::FastFeatureDetector::THRESHOLD);
+  rb_cCvFastFeatureDetector.define_constant("NONMAX_SUPPRESSION", cv::FastFeatureDetector::NONMAX_SUPPRESSION);
+  rb_cCvFastFeatureDetector.define_constant("FAST_N", cv::FastFeatureDetector::FAST_N);
   
   rb_mCv.define_module_function<void(*)(cv::InputArray, std::vector<cv::KeyPoint>&, int, bool)>("fast", &cv::FAST,
     Arg("image"), Arg("keypoints"), Arg("threshold"), Arg("nonmax_suppression"));
@@ -251,6 +259,8 @@ void Init_Features2d()
     define_value("AGAST_7_12s", cv::AgastFeatureDetector::DetectorType::AGAST_7_12s).
     define_value("OAST_9_16", cv::AgastFeatureDetector::DetectorType::OAST_9_16);
   
+  rb_cCvAgastFeatureDetector.define_constant("THRESHOLD", cv::AgastFeatureDetector::THRESHOLD);
+  rb_cCvAgastFeatureDetector.define_constant("NONMAX_SUPPRESSION", cv::AgastFeatureDetector::NONMAX_SUPPRESSION);
   
   rb_mCv.define_module_function<void(*)(cv::InputArray, std::vector<cv::KeyPoint>&, int, bool)>("agast", &cv::AGAST,
     Arg("image"), Arg("keypoints"), Arg("threshold"), Arg("nonmax_suppression"));

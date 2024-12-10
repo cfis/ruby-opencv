@@ -1,5 +1,6 @@
 #include <sstream>
 #include <opencv2/imgcodecs.hpp>
+
 #include "core/cvstd_wrapper-rb.hpp"
 #include "imgcodecs-rb.hpp"
 
@@ -155,6 +156,9 @@ void Init_Imgcodecs()
   rb_mCv.define_module_function<bool(*)(const cv::String&, cv::InputArray, const std::vector<int>&)>("imwrite?", &cv::imwrite,
     Arg("filename"), Arg("img"), Arg("params"));
   
+  rb_mCv.define_module_function<bool(*)(const cv::String&, cv::InputArrayOfArrays, const std::vector<int>&)>("imwritemulti?", &cv::imwritemulti,
+    Arg("filename"), Arg("img"), Arg("params"));
+  
   rb_mCv.define_module_function<cv::Mat(*)(cv::InputArray, int)>("imdecode", &cv::imdecode,
     Arg("buf"), Arg("flags"));
   
@@ -186,8 +190,8 @@ void Init_Imgcodecs()
       Arg("index")).
     define_method<void(cv::ImageCollection::*)(int)>("release_cache", &cv::ImageCollection::releaseCache,
       Arg("index"));
-   // define_iterator<cv::ImageCollection::iterator(cv::ImageCollection::*)()>(&cv::ImageCollection::begin, &cv::ImageCollection::end, "each").
-    //define_method<cv::Ptr<cv::ImageCollection::Impl>(cv::ImageCollection::*)()>("get_impl", &cv::ImageCollection::getImpl);
+//    define_iterator<cv::ImageCollection::iterator(cv::ImageCollection::*)()>(&cv::ImageCollection::begin, &cv::ImageCollection::end, "each").
+//    define_method<cv::Ptr<cv::ImageCollection::Impl>(cv::ImageCollection::*)()>("get_impl", &cv::ImageCollection::getImpl);
   
   
   Class rb_cCvImageCollectionIterator = define_class_under<cv::ImageCollection::iterator>(rb_cCvImageCollection, "Iterator").

@@ -12,6 +12,11 @@ void Init_Common()
   
   Module rb_mCvCuda = define_module_under(rb_mCv, "Cuda");
   
+  rb_mCvCuda.define_module_function<void(*)(int, const char*, const int, const char*)>("check_cuda_error", &cv::cuda::checkCudaError,
+    Arg("err"), Arg("file"), Arg("line"), Arg("func"));
+  
+  rb_mCvCuda.define_module_function<bool(*)(::size_t, ::size_t)>("is_aligned?", &cv::cuda::isAligned,
+    Arg("step"), Arg("size"));
   
   Module rb_mCvCudaDevice = define_module_under(rb_mCvCuda, "Device");
   

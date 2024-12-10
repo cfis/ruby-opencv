@@ -67,9 +67,11 @@ void Init_VecTraits()
   Class rb_cCvCudaDeviceVecTraitsChar = define_class_under<cv::cuda::device::VecTraits<char>>(rb_mCvCudaDevice, "VecTraitsChar").
     define_constructor(Constructor<cv::cuda::device::VecTraits<char>>());
   
+  rb_cCvCudaDeviceVecTraitsChar.define_constant("Cn", cv::cuda::device::VecTraits<char>::cn);
   
   Class rb_cCvCudaDeviceVecTraitsSchar = define_class_under<cv::cuda::device::VecTraits<schar>>(rb_mCvCudaDevice, "VecTraitsSchar").
     define_constructor(Constructor<cv::cuda::device::VecTraits<schar>>());
   
+  rb_cCvCudaDeviceVecTraitsSchar.define_constant("Cn", cv::cuda::device::VecTraits<schar>::cn);
 
 }

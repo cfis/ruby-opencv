@@ -1,5 +1,6 @@
 #include <sstream>
 #include <opencv2/core/cuda.hpp>
+#include <opencv2/core/ocl.hpp>
 #include <opencv2/core/opengl.hpp>
 #include "opengl-rb.hpp"
 

@@ -23,6 +23,14 @@ void Init_Filesystem()
   rb_mCvUtilsFs.define_module_function<int(*)(const int&)>("remove_all", &cv::utils::fs::remove_all,
     Arg("path"));
   
+  rb_mCv.define_singleton_attr("String", &cv::String);
+  
+  rb_mCv.define_singleton_attr("String", &cv::String);
+  
+  rb_mCv.define_singleton_attr("String", &cv::String);
+  
+  rb_mCv.define_singleton_attr("String", &cv::String);
+  
   rb_mCvUtilsFs.define_module_function<int(*)(const int&, const int&, int)>("glob", &cv::utils::fs::glob,
     Arg("directory"), Arg("pattern"), Arg(""));
   

@@ -104,7 +104,7 @@ void Init_Utility()
     define_method<void(cv::TickMeter::*)()>("reset", &cv::TickMeter::reset);
   
   
-  rb_cCvTickMeter.define_method("to_s", [](const cv::TickMeter& self) -> std::string
+  rb_cCvTickMeter.define_method("inspect", [](const cv::TickMeter& self) -> std::string
   {
     std::ostringstream stream;
     stream << self;
@@ -123,10 +123,28 @@ void Init_Utility()
   
   rb_mCv.define_module_function<int(*)()>("get_number_of_cp_us", &cv::getNumberOfCPUs);
   
+  rb_mCv.define_module_function<::size_t(*)(::size_t, int)>("align_size", &cv::alignSize,
+    Arg("sz"), Arg("n"));
+  
+  rb_mCv.define_module_function<int(*)(int, unsigned int)>("div_up", &cv::divUp,
+    Arg("a"), Arg("b"));
+  
+  rb_mCv.define_module_function<::size_t(*)(::size_t, unsigned int)>("div_up", &cv::divUp,
+    Arg("a"), Arg("b"));
+  
+  rb_mCv.define_module_function<int(*)(int, unsigned int)>("round_up", &cv::roundUp,
+    Arg("a"), Arg("b"));
+  
+  rb_mCv.define_module_function<::size_t(*)(::size_t, unsigned int)>("round_up", &cv::roundUp,
+    Arg("a"), Arg("b"));
+  
   rb_mCv.define_module_function<void(*)(bool)>("set_use_optimized", &cv::setUseOptimized,
     Arg("onoff"));
   
   rb_mCv.define_module_function<bool(*)()>("use_optimized?", &cv::useOptimized);
+  
+  rb_mCv.define_module_function<::size_t(*)(int)>("get_elem_size", &cv::getElemSize,
+    Arg("type"));
   
   Class rb_cCvParallelLoopBody = define_class_under<cv::ParallelLoopBody>(rb_mCv, "ParallelLoopBody").
     define_method<void(cv::ParallelLoopBody::*)(const cv::Range&) const>("()", &cv::ParallelLoopBody::operator(),
@@ -140,6 +158,9 @@ void Init_Utility()
       Arg("functor")).
     define_method<void(cv::ParallelLoopBodyLambdaWrapper::*)(const cv::Range&) const>("()", &cv::ParallelLoopBodyLambdaWrapper::operator(),
       Arg("range"));
+  
+  rb_mCv.define_module_function<void(*)(const cv::Range&, std::function<void (const cv::Range &)>, double)>("parallel_for_", &cv::parallel_for_,
+    Arg("range"), Arg("functor"), Arg("nstripes") = -1.);
   
   Class rb_cCvCommandLineParser = define_class_under<cv::CommandLineParser>(rb_mCv, "CommandLineParser").
     define_constructor(Constructor<cv::CommandLineParser, int, const char *const[], const cv::String&>(),

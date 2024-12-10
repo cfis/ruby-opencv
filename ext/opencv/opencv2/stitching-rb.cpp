@@ -12,7 +12,7 @@ void Init_Stitching()
   
   Class rb_cCvStitcher = define_class_under<cv::Stitcher>(rb_mCv, "Stitcher").
     define_constructor(Constructor<cv::Stitcher>()).
-    define_singleton_attr("ORIG_RESOL", &Stitcher::ORIG_RESOL).
+    define_constant("ORIG_RESOL", cv::Stitcher::ORIG_RESOL).
     define_singleton_function<cv::Ptr<cv::Stitcher>(*)(cv::Stitcher::Mode)>("create", &cv::Stitcher::create,
       Arg("mode")).
     define_method<double(cv::Stitcher::*)() const>("registration_resol", &cv::Stitcher::registrationResol).

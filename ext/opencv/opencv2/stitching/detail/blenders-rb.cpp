@@ -25,6 +25,9 @@ void Init_Blenders()
     define_method<void(cv::detail::Blender::*)(cv::InputOutputArray, cv::InputOutputArray)>("blend", &cv::detail::Blender::blend,
       Arg("dst"), Arg("dst_mask"));
   
+  rb_cCvDetailBlender.define_constant("NO", cv::detail::Blender::NO);
+  rb_cCvDetailBlender.define_constant("FEATHER", cv::detail::Blender::FEATHER);
+  rb_cCvDetailBlender.define_constant("MULTI_BAND", cv::detail::Blender::MULTI_BAND);
   
   Class rb_cCvDetailFeatherBlender = define_class_under<cv::detail::FeatherBlender, cv::detail::Blender>(rb_mCvDetail, "FeatherBlender").
     define_constructor(Constructor<cv::detail::FeatherBlender, float>(),

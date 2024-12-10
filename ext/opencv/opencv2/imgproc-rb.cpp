@@ -594,7 +594,20 @@ void Init_Imgproc()
       Arg("edgeidx")).
     define_method<bool(cv::Subdiv2D::QuadEdge::*)() const>("isfree?", &cv::Subdiv2D::QuadEdge::isfree);
   
+  rb_cCvSubdiv2D.define_constant("PTLOC_ERROR", cv::Subdiv2D::PTLOC_ERROR);
+  rb_cCvSubdiv2D.define_constant("PTLOC_OUTSIDE_RECT", cv::Subdiv2D::PTLOC_OUTSIDE_RECT);
+  rb_cCvSubdiv2D.define_constant("PTLOC_INSIDE", cv::Subdiv2D::PTLOC_INSIDE);
+  rb_cCvSubdiv2D.define_constant("PTLOC_VERTEX", cv::Subdiv2D::PTLOC_VERTEX);
+  rb_cCvSubdiv2D.define_constant("PTLOC_ON_EDGE", cv::Subdiv2D::PTLOC_ON_EDGE);
   
+  rb_cCvSubdiv2D.define_constant("NEXT_AROUND_ORG", cv::Subdiv2D::NEXT_AROUND_ORG);
+  rb_cCvSubdiv2D.define_constant("NEXT_AROUND_DST", cv::Subdiv2D::NEXT_AROUND_DST);
+  rb_cCvSubdiv2D.define_constant("PREV_AROUND_ORG", cv::Subdiv2D::PREV_AROUND_ORG);
+  rb_cCvSubdiv2D.define_constant("PREV_AROUND_DST", cv::Subdiv2D::PREV_AROUND_DST);
+  rb_cCvSubdiv2D.define_constant("NEXT_AROUND_LEFT", cv::Subdiv2D::NEXT_AROUND_LEFT);
+  rb_cCvSubdiv2D.define_constant("NEXT_AROUND_RIGHT", cv::Subdiv2D::NEXT_AROUND_RIGHT);
+  rb_cCvSubdiv2D.define_constant("PREV_AROUND_LEFT", cv::Subdiv2D::PREV_AROUND_LEFT);
+  rb_cCvSubdiv2D.define_constant("PREV_AROUND_RIGHT", cv::Subdiv2D::PREV_AROUND_RIGHT);
   
   Class rb_cCvLineSegmentDetector = define_class_under<cv::LineSegmentDetector, cv::Algorithm>(rb_mCv, "LineSegmentDetector").
     define_method<void(cv::LineSegmentDetector::*)(cv::InputArray, cv::OutputArray, cv::OutputArray, cv::OutputArray, cv::OutputArray)>("detect", &cv::LineSegmentDetector::detect,
@@ -615,6 +628,8 @@ void Init_Imgproc()
   
   rb_mCv.define_module_function<cv::Mat(*)(cv::Size, double, double, double, double, double, int)>("get_gabor_kernel", &cv::getGaborKernel,
     Arg("ksize"), Arg("sigma"), Arg("theta"), Arg("lambd"), Arg("gamma"), Arg("psi") = NULL0.5, Arg("ktype") = NULL);
+  
+  rb_mCv.define_module_function<cv::Scalar(*)()>("morphology_default_border_value", &cv::morphologyDefaultBorderValue);
   
   rb_mCv.define_module_function<cv::Mat(*)(int, cv::Size, cv::Point)>("get_structuring_element", &cv::getStructuringElement,
     Arg("shape"), Arg("ksize"), Arg("anchor") = -1-1);

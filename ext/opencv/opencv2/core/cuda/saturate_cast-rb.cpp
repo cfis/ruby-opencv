@@ -37,5 +37,71 @@ void Init_SaturateCast()
   
   rb_mCvCudaDevice.define_module_function<int(*)(double)>("saturate_cast", &cv::cuda::device::saturate_cast,
     Arg("v"));
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
+  
+  rb_mCvCudaDevice.define_singleton_attr("SaturateCast", &cv::cuda::device::saturate_cast);
 
 }

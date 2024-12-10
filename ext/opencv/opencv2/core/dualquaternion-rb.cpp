@@ -12,7 +12,8 @@ inline void DualQuat_builder(Data_Type_T& klass)
 template<typename Data_Type_T, typename _Tp>
 inline void DualQuat_builder(Data_Type_T& klass)
 {
-  klass.define_constructor(Constructor<cv::DualQuat::DualQuat<_Tp>>()).
+  klass.define_constant("CV_DUAL_QUAT_EPS", cv::DualQuat<_Tp>::CV_DUAL_QUAT_EPS).
+    define_constructor(Constructor<cv::DualQuat::DualQuat<_Tp>>()).
     define_constructor(Constructor<cv::DualQuat::DualQuat<_Tp>, const _Tp, const _Tp, const _Tp, const _Tp, const _Tp, const _Tp, const _Tp, const _Tp>(),
       Arg("w"), Arg("x"), Arg("y"), Arg("z"), Arg("w_"), Arg("x_"), Arg("y_"), Arg("z_")).
     define_constructor(Constructor<cv::DualQuat::DualQuat<_Tp>, const cv::Vec<_Tp, 8>&>(),

@@ -10,6 +10,17 @@ void Init_Calib3d()
 {
   Module rb_mCv = define_module("Cv");
   
+  rb_mCv.define_constant("LMEDS", cv::LMEDS);
+  rb_mCv.define_constant("RANSAC", cv::RANSAC);
+  rb_mCv.define_constant("RHO", cv::RHO);
+  rb_mCv.define_constant("USAC_DEFAULT", cv::USAC_DEFAULT);
+  rb_mCv.define_constant("USAC_PARALLEL", cv::USAC_PARALLEL);
+  rb_mCv.define_constant("USAC_FM_8PTS", cv::USAC_FM_8PTS);
+  rb_mCv.define_constant("USAC_FAST", cv::USAC_FAST);
+  rb_mCv.define_constant("USAC_ACCURATE", cv::USAC_ACCURATE);
+  rb_mCv.define_constant("USAC_PROSAC", cv::USAC_PROSAC);
+  rb_mCv.define_constant("USAC_MAGSAC", cv::USAC_MAGSAC);
+  
   Enum<cv::SolvePnPMethod> rb_cCvSolvePnPMethod = define_enum_under<cv::SolvePnPMethod>("SolvePnPMethod", rb_mCv).
     define_value("SOLVEPNP_ITERATIVE", cv::SolvePnPMethod::SOLVEPNP_ITERATIVE).
     define_value("SOLVEPNP_EPNP", cv::SolvePnPMethod::SOLVEPNP_EPNP).
@@ -21,6 +32,50 @@ void Init_Calib3d()
     define_value("SOLVEPNP_IPPE_SQUARE", cv::SolvePnPMethod::SOLVEPNP_IPPE_SQUARE).
     define_value("SOLVEPNP_SQPNP", cv::SolvePnPMethod::SOLVEPNP_SQPNP).
     define_value("SOLVEPNP_MAX_COUNT", cv::SolvePnPMethod::SOLVEPNP_MAX_COUNT);
+  
+  rb_mCv.define_constant("CALIB_CB_ADAPTIVE_THRESH", cv::CALIB_CB_ADAPTIVE_THRESH);
+  rb_mCv.define_constant("CALIB_CB_NORMALIZE_IMAGE", cv::CALIB_CB_NORMALIZE_IMAGE);
+  rb_mCv.define_constant("CALIB_CB_FILTER_QUADS", cv::CALIB_CB_FILTER_QUADS);
+  rb_mCv.define_constant("CALIB_CB_FAST_CHECK", cv::CALIB_CB_FAST_CHECK);
+  rb_mCv.define_constant("CALIB_CB_EXHAUSTIVE", cv::CALIB_CB_EXHAUSTIVE);
+  rb_mCv.define_constant("CALIB_CB_ACCURACY", cv::CALIB_CB_ACCURACY);
+  rb_mCv.define_constant("CALIB_CB_LARGER", cv::CALIB_CB_LARGER);
+  rb_mCv.define_constant("CALIB_CB_MARKER", cv::CALIB_CB_MARKER);
+  rb_mCv.define_constant("CALIB_CB_PLAIN", cv::CALIB_CB_PLAIN);
+  
+  rb_mCv.define_constant("CALIB_CB_SYMMETRIC_GRID", cv::CALIB_CB_SYMMETRIC_GRID);
+  rb_mCv.define_constant("CALIB_CB_ASYMMETRIC_GRID", cv::CALIB_CB_ASYMMETRIC_GRID);
+  rb_mCv.define_constant("CALIB_CB_CLUSTERING", cv::CALIB_CB_CLUSTERING);
+  
+  rb_mCv.define_constant("CALIB_NINTRINSIC", cv::CALIB_NINTRINSIC);
+  rb_mCv.define_constant("CALIB_USE_INTRINSIC_GUESS", cv::CALIB_USE_INTRINSIC_GUESS);
+  rb_mCv.define_constant("CALIB_FIX_ASPECT_RATIO", cv::CALIB_FIX_ASPECT_RATIO);
+  rb_mCv.define_constant("CALIB_FIX_PRINCIPAL_POINT", cv::CALIB_FIX_PRINCIPAL_POINT);
+  rb_mCv.define_constant("CALIB_ZERO_TANGENT_DIST", cv::CALIB_ZERO_TANGENT_DIST);
+  rb_mCv.define_constant("CALIB_FIX_FOCAL_LENGTH", cv::CALIB_FIX_FOCAL_LENGTH);
+  rb_mCv.define_constant("CALIB_FIX_K1", cv::CALIB_FIX_K1);
+  rb_mCv.define_constant("CALIB_FIX_K2", cv::CALIB_FIX_K2);
+  rb_mCv.define_constant("CALIB_FIX_K3", cv::CALIB_FIX_K3);
+  rb_mCv.define_constant("CALIB_FIX_K4", cv::CALIB_FIX_K4);
+  rb_mCv.define_constant("CALIB_FIX_K5", cv::CALIB_FIX_K5);
+  rb_mCv.define_constant("CALIB_FIX_K6", cv::CALIB_FIX_K6);
+  rb_mCv.define_constant("CALIB_RATIONAL_MODEL", cv::CALIB_RATIONAL_MODEL);
+  rb_mCv.define_constant("CALIB_THIN_PRISM_MODEL", cv::CALIB_THIN_PRISM_MODEL);
+  rb_mCv.define_constant("CALIB_FIX_S1_S2_S3_S4", cv::CALIB_FIX_S1_S2_S3_S4);
+  rb_mCv.define_constant("CALIB_TILTED_MODEL", cv::CALIB_TILTED_MODEL);
+  rb_mCv.define_constant("CALIB_FIX_TAUX_TAUY", cv::CALIB_FIX_TAUX_TAUY);
+  rb_mCv.define_constant("CALIB_USE_QR", cv::CALIB_USE_QR);
+  rb_mCv.define_constant("CALIB_FIX_TANGENT_DIST", cv::CALIB_FIX_TANGENT_DIST);
+  rb_mCv.define_constant("CALIB_FIX_INTRINSIC", cv::CALIB_FIX_INTRINSIC);
+  rb_mCv.define_constant("CALIB_SAME_FOCAL_LENGTH", cv::CALIB_SAME_FOCAL_LENGTH);
+  rb_mCv.define_constant("CALIB_ZERO_DISPARITY", cv::CALIB_ZERO_DISPARITY);
+  rb_mCv.define_constant("CALIB_USE_LU", cv::CALIB_USE_LU);
+  rb_mCv.define_constant("CALIB_USE_EXTRINSIC_GUESS", cv::CALIB_USE_EXTRINSIC_GUESS);
+  
+  rb_mCv.define_constant("FM_7POINT", cv::FM_7POINT);
+  rb_mCv.define_constant("FM_8POINT", cv::FM_8POINT);
+  rb_mCv.define_constant("FM_LMEDS", cv::FM_LMEDS);
+  rb_mCv.define_constant("FM_RANSAC", cv::FM_RANSAC);
   
   Enum<cv::HandEyeCalibrationMethod> rb_cCvHandEyeCalibrationMethod = define_enum_under<cv::HandEyeCalibrationMethod>("HandEyeCalibrationMethod", rb_mCv).
     define_value("CALIB_HAND_EYE_TSAI", cv::HandEyeCalibrationMethod::CALIB_HAND_EYE_TSAI).
@@ -364,6 +419,8 @@ void Init_Calib3d()
     define_method<void(cv::StereoMatcher::*)(int)>("set_disp12_max_diff", &cv::StereoMatcher::setDisp12MaxDiff,
       Arg("disp12_max_diff"));
   
+  rb_cCvStereoMatcher.define_constant("DISP_SHIFT", cv::StereoMatcher::DISP_SHIFT);
+  rb_cCvStereoMatcher.define_constant("DISP_SCALE", cv::StereoMatcher::DISP_SCALE);
   
   Class rb_cCvStereoBM = define_class_under<cv::StereoBM, cv::StereoMatcher>(rb_mCv, "StereoBM").
     define_method<int(cv::StereoBM::*)() const>("get_pre_filter_type", &cv::StereoBM::getPreFilterType).
@@ -393,6 +450,8 @@ void Init_Calib3d()
     define_singleton_function<cv::Ptr<cv::StereoBM>(*)(int, int)>("create", &cv::StereoBM::create,
       Arg("num_disparities") = 0, Arg("block_size") = 21);
   
+  rb_cCvStereoBM.define_constant("PREFILTER_NORMALIZED_RESPONSE", cv::StereoBM::PREFILTER_NORMALIZED_RESPONSE);
+  rb_cCvStereoBM.define_constant("PREFILTER_XSOBEL", cv::StereoBM::PREFILTER_XSOBEL);
   
   Class rb_cCvStereoSGBM = define_class_under<cv::StereoSGBM, cv::StereoMatcher>(rb_mCv, "StereoSGBM").
     define_method<int(cv::StereoSGBM::*)() const>("get_pre_filter_cap", &cv::StereoSGBM::getPreFilterCap).
@@ -413,6 +472,10 @@ void Init_Calib3d()
     define_singleton_function<cv::Ptr<cv::StereoSGBM>(*)(int, int, int, int, int, int, int, int, int, int, int)>("create", &cv::StereoSGBM::create,
       Arg("min_disparity") = 0, Arg("num_disparities") = 16, Arg("block_size") = 3, Arg("p1") = 0, Arg("p2") = 0, Arg("disp12_max_diff") = 0, Arg("pre_filter_cap") = 0, Arg("uniqueness_ratio") = 0, Arg("speckle_window_size") = 0, Arg("speckle_range") = 0, Arg("mode"));
   
+  rb_cCvStereoSGBM.define_constant("MODE_SGBM", cv::StereoSGBM::MODE_SGBM);
+  rb_cCvStereoSGBM.define_constant("MODE_HH", cv::StereoSGBM::MODE_HH);
+  rb_cCvStereoSGBM.define_constant("MODE_SGBM_3WAY", cv::StereoSGBM::MODE_SGBM_3WAY);
+  rb_cCvStereoSGBM.define_constant("MODE_HH4", cv::StereoSGBM::MODE_HH4);
   
   Enum<cv::UndistortTypes> rb_cCvUndistortTypes = define_enum_under<cv::UndistortTypes>("UndistortTypes", rb_mCv).
     define_value("PROJ_SPHERICAL_ORTHO", cv::UndistortTypes::PROJ_SPHERICAL_ORTHO).
@@ -430,6 +493,9 @@ void Init_Calib3d()
   rb_mCv.define_module_function<float(*)(cv::InputArray, cv::InputArray, cv::Size, int, int, cv::OutputArray, cv::OutputArray, cv::UndistortTypes, double)>("init_wide_angle_proj_map", &cv::initWideAngleProjMap,
     Arg("camera_matrix"), Arg("dist_coeffs"), Arg("image_size"), Arg("dest_image_width"), Arg("m1type"), Arg("map1"), Arg("map2"), Arg("proj_type"), Arg("alpha") = 0);
   
+  rb_mCv.define_module_function<float(*)(cv::InputArray, cv::InputArray, cv::Size, int, int, cv::OutputArray, cv::OutputArray, int, double)>("init_wide_angle_proj_map", &cv::initWideAngleProjMap,
+    Arg("camera_matrix"), Arg("dist_coeffs"), Arg("image_size"), Arg("dest_image_width"), Arg("m1type"), Arg("map1"), Arg("map2"), Arg("proj_type"), Arg("alpha") = 0);
+  
   rb_mCv.define_module_function<cv::Mat(*)(cv::InputArray, cv::Size, bool)>("get_default_new_camera_matrix", &cv::getDefaultNewCameraMatrix,
     Arg("camera_matrix"), Arg("imgsize"), Arg("center_principal_point"));
   
@@ -443,6 +509,19 @@ void Init_Calib3d()
     Arg("src"), Arg("dst"), Arg("camera_matrix"), Arg("dist_coeffs"), Arg("") = 50.01);
   
   Module rb_mCvFisheye = define_module_under(rb_mCv, "Fisheye");
+  
+  rb_mCvFisheye.define_constant("CALIB_USE_INTRINSIC_GUESS", cv::fisheye::CALIB_USE_INTRINSIC_GUESS);
+  rb_mCvFisheye.define_constant("CALIB_RECOMPUTE_EXTRINSIC", cv::fisheye::CALIB_RECOMPUTE_EXTRINSIC);
+  rb_mCvFisheye.define_constant("CALIB_CHECK_COND", cv::fisheye::CALIB_CHECK_COND);
+  rb_mCvFisheye.define_constant("CALIB_FIX_SKEW", cv::fisheye::CALIB_FIX_SKEW);
+  rb_mCvFisheye.define_constant("CALIB_FIX_K1", cv::fisheye::CALIB_FIX_K1);
+  rb_mCvFisheye.define_constant("CALIB_FIX_K2", cv::fisheye::CALIB_FIX_K2);
+  rb_mCvFisheye.define_constant("CALIB_FIX_K3", cv::fisheye::CALIB_FIX_K3);
+  rb_mCvFisheye.define_constant("CALIB_FIX_K4", cv::fisheye::CALIB_FIX_K4);
+  rb_mCvFisheye.define_constant("CALIB_FIX_INTRINSIC", cv::fisheye::CALIB_FIX_INTRINSIC);
+  rb_mCvFisheye.define_constant("CALIB_FIX_PRINCIPAL_POINT", cv::fisheye::CALIB_FIX_PRINCIPAL_POINT);
+  rb_mCvFisheye.define_constant("CALIB_ZERO_DISPARITY", cv::fisheye::CALIB_ZERO_DISPARITY);
+  rb_mCvFisheye.define_constant("CALIB_FIX_FOCAL_LENGTH", cv::fisheye::CALIB_FIX_FOCAL_LENGTH);
   
   rb_mCvFisheye.define_module_function<void(*)(cv::InputArray, cv::OutputArray, const cv::Affine3d&, cv::InputArray, cv::InputArray, double, cv::OutputArray)>("project_points", &cv::fisheye::projectPoints,
     Arg("object_points"), Arg("image_points"), Arg("affine"), Arg("k"), Arg("d"), Arg("alpha") = 0, Arg("jacobian"));

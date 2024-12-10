@@ -201,6 +201,7 @@ void Init_Base()
   
   Class rb_cCvHamming = define_class_under<cv::Hamming>(rb_mCv, "Hamming").
     define_constructor(Constructor<cv::Hamming>()).
+    define_constant("NormType", cv::Hamming::normType).
     define_method<cv::Hamming::ResultType(cv::Hamming::*)(const unsigned char*, const unsigned char*, int) const>("()", &cv::Hamming::operator(),
       Arg("a"), Arg("b"), Arg("size"));
   
@@ -216,6 +217,9 @@ void Init_Base()
   rb_mCv.define_module_function<int(*)(short)>("cv_abs", &cv::cv_abs,
     Arg("x"));
   
+  rb_mCv.define_module_function<float(*)(const float*, const float*, int)>("norm_l2_sqr", &cv::normL2Sqr,
+    Arg("a"), Arg("b"), Arg("n"));
+  
   rb_mCv.define_module_function<float(*)(const float*, const float*, int)>("norm_l1", &cv::normL1,
     Arg("a"), Arg("b"), Arg("n"));
   
@@ -223,6 +227,9 @@ void Init_Base()
     Arg("a"), Arg("b"), Arg("n"));
   
   rb_mCv.define_module_function<float(*)(float)>("cube_root", &cv::cubeRoot,
+    Arg("val"));
+  
+  rb_mCv.define_module_function<double(*)(double)>("cube_root", &cv::cubeRoot,
     Arg("val"));
   
   rb_mCv.define_module_function<float(*)(float, float)>("fast_atan2", &cv::fastAtan2,
@@ -270,6 +277,11 @@ void Init_Base()
   rb_mCvIpp.define_module_function<bool(*)()>("use_ipp_not_exact?", &cv::ipp::useIPP_NotExact);
   
   rb_mCvIpp.define_module_function<void(*)(bool)>("set_use_ipp_not_exact", &cv::ipp::setUseIPP_NotExact,
+    Arg("flag"));
+  
+  rb_mCvIpp.define_module_function<bool(*)()>("use_ipp_ne?", &cv::ipp::useIPP_NE);
+  
+  rb_mCvIpp.define_module_function<void(*)(bool)>("set_use_ipp_ne", &cv::ipp::setUseIPP_NE,
     Arg("flag"));
 
 }

@@ -25,5 +25,19 @@ void Init_Operations()
   
   Module rb_mCvInternal = define_module_under(rb_mCv, "Internal");
   
+  
+  rb_mCv.define_module_function<int(*)(int, int)>("format", &cv::format,
+    Arg("mtx"), Arg("fmt"));
+  
+  rb_mCv.define_module_function<int(*)(int, ::FILE*)>("print", &cv::print,
+    Arg("fmtd"), Arg("stream") = NULL);
+  
+  rb_mCv.define_module_function<int(*)(const int&, ::FILE*)>("print", &cv::print,
+    Arg("mtx"), Arg("stream") = NULL);
+  
+  rb_mCv.define_module_function<int(*)(const int&, ::FILE*)>("print", &cv::print,
+    Arg("mtx"), Arg("stream") = NULL);
+  
+  rb_mCv.define_singleton_attr("String", &cv::String);
 
 }

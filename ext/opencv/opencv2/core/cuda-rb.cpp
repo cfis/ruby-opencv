@@ -1,5 +1,6 @@
 #include <sstream>
 #include <opencv2/core/cuda.hpp>
+
 #include "cvstd_wrapper-rb.hpp"
 #include "cuda-rb.hpp"
 
@@ -308,10 +309,10 @@ void Init_Cuda()
     define_method<void(cv::cuda::Stream::*)()>("wait_for_completion", &cv::cuda::Stream::waitForCompletion).
     define_method<void(cv::cuda::Stream::*)(const cv::cuda::Event&)>("wait_event", &cv::cuda::Stream::waitEvent,
       Arg("event")).
-//    define_method<void(cv::cuda::Stream::*)(cv::cuda::Stream::StreamCallback, void*)>("enqueue_host_callback", &cv::cuda::Stream::enqueueHostCallback,
-  //    Arg("callback"), Arg("user_data")).
+   // define_method<void(cv::cuda::Stream::*)(cv::cuda::Stream::StreamCallback, void*)>("enqueue_host_callback", &cv::cuda::Stream::enqueueHostCallback,
+    //  Arg("callback"), Arg("user_data")).
     define_singleton_function<cv::cuda::Stream&(*)()>("null", &cv::cuda::Stream::Null).
- /*   define_method("to_void (cv/cuda/stream/*)() const", [](const cv::cuda::Stream& self) -> cv::cuda::Stream::bool_type
+   /* define_method("to_void (cv/cuda/stream/*)() const", [](const cv::cuda::Stream& self) -> cv::cuda::Stream::bool_type
     {
       return self;
     }).*/
@@ -464,6 +465,6 @@ void Init_Cuda()
     Arg("device"));
   
   //rb_mCvCuda.define_module_function<void(*)(cv::InputArray, cv::OutputArray, cv::cuda::Stream&)>("convert_fp16", &cv::cuda::convertFp16,
-   // Arg("_src"), Arg("_dst"), Arg("stream"));
+  //  Arg("_src"), Arg("_dst"), Arg("stream"));
 
 }

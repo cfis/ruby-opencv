@@ -9,11 +9,14 @@ using namespace Rice;
 void Init_ParallelForTbb()
 {
   Class(rb_cObject).define_constant("TBB_SUPPRESS_DEPRECATED_MESSAGES", TBB_SUPPRESS_DEPRECATED_MESSAGES);
+  
   Module rb_mCv = define_module("Cv");
   
   Module rb_mCvParallel = define_module_under(rb_mCv, "Parallel");
   
   Module rb_mCvParallelTbb = define_module_under(rb_mCvParallel, "Tbb");
+  
+  rb_mCvParallelTbb.define_module_function<int&(*)()>("get_scheduler", &cv::parallel::tbb::getScheduler);
   
   Class rb_cCvParallelTbbParallelForBackend = define_class_under<cv::parallel::tbb::ParallelForBackend, cv::parallel::ParallelForAPI>(rb_mCvParallelTbb, "ParallelForBackend").
     define_constructor(Constructor<cv::parallel::tbb::ParallelForBackend>()).

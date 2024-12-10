@@ -14,5 +14,6 @@ void Init_OclGenbase()
   
   Module rb_mCvOclInternal = define_module_under(rb_mCvOcl, "Internal");
   
+  rb_mCvOclInternal.define_singleton_attr("ProgramEntry", &cv::ocl::internal::ProgramEntry);
 
 }

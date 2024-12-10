@@ -9,6 +9,7 @@ using namespace Rice;
 void Init_Reduce()
 {
   Class(rb_cObject).define_constant("THRUST_DEBUG", THRUST_DEBUG);
+  
   Module rb_mCv = define_module("Cv");
   
   Module rb_mCvCuda = define_module_under(rb_mCv, "Cuda");

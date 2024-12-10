@@ -863,7 +863,17 @@ void Init_Mat()
       stream << self;
       return stream.str();
     });
-
+    //define_attr("step", &cv::Mat::step);
+  
+  rb_cCvMat.define_constant("MAGIC_VAL", (int)cv::Mat::MAGIC_VAL);
+  rb_cCvMat.define_constant("AUTO_STEP", (int)cv::Mat::AUTO_STEP);
+  rb_cCvMat.define_constant("CONTINUOUS_FLAG", (int)cv::Mat::CONTINUOUS_FLAG);
+  rb_cCvMat.define_constant("SUBMATRIX_FLAG", (int)cv::Mat::SUBMATRIX_FLAG);
+  
+  rb_cCvMat.define_constant("MAGIC_MASK", (int)cv::Mat::MAGIC_MASK);
+  rb_cCvMat.define_constant("TYPE_MASK", (int)cv::Mat::TYPE_MASK);
+  rb_cCvMat.define_constant("DEPTH_MASK", (int)cv::Mat::DEPTH_MASK);
+  
   Class rb_cMat1b = define_class_under<cv::Mat_<unsigned char>>(rb_mCv, "Mat1b").
     define(&Mat__builder<Data_Type<cv::Mat_<unsigned char>>, unsigned char>);
   
@@ -1104,6 +1114,15 @@ void Init_Mat()
       return stream.str();
     });
 
+  rb_cCvUMat.define_constant("MAGIC_VAL", (int)cv::UMat::MAGIC_VAL);
+  rb_cCvUMat.define_constant("AUTO_STEP", (int)cv::UMat::AUTO_STEP);
+  rb_cCvUMat.define_constant("CONTINUOUS_FLAG", (int)cv::UMat::CONTINUOUS_FLAG);
+  rb_cCvUMat.define_constant("SUBMATRIX_FLAG", (int)cv::UMat::SUBMATRIX_FLAG);
+  
+  rb_cCvUMat.define_constant("MAGIC_MASK", (int)cv::UMat::MAGIC_MASK);
+  rb_cCvUMat.define_constant("TYPE_MASK", (int)cv::UMat::TYPE_MASK);
+  rb_cCvUMat.define_constant("DEPTH_MASK", (int)cv::UMat::DEPTH_MASK);
+  
   Class rb_cCvSparseMat = define_class_under<cv::SparseMat>(rb_mCv, "SparseMat").
     define_constructor(Constructor<cv::SparseMat>()).
     define_constructor(Constructor<cv::SparseMat, int, const int*, int>(),
@@ -1197,6 +1216,10 @@ void Init_Mat()
     define_attr("hashval", &cv::SparseMat::Node::hashval).
     define_attr("next", &cv::SparseMat::Node::next);
   
+  rb_cCvSparseMat.define_constant("MAGIC_VAL", (int)cv::SparseMat::MAGIC_VAL);
+  rb_cCvSparseMat.define_constant("MAX_DIM", (int)cv::SparseMat::MAX_DIM);
+  rb_cCvSparseMat.define_constant("HASH_SCALE", (int)cv::SparseMat::HASH_SCALE);
+  rb_cCvSparseMat.define_constant("HASH_BIT", (int)cv::SparseMat::HASH_BIT);
   
   Class rb_cCvMatConstIterator = define_class_under<cv::MatConstIterator>(rb_mCv, "MatConstIterator").
     define_constructor(Constructor<cv::MatConstIterator>()).

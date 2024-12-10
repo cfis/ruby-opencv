@@ -32,5 +32,7 @@ void Init_Tls()
   
   Module rb_mCvDetails = define_module_under(rb_mCv, "Details");
   
+  
+  rb_mCv.define_singleton_attr("TLSDataContainer", &cv::TLSDataContainer);
 
 }
